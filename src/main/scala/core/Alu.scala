@@ -1,0 +1,56 @@
+package core
+
+import chisel3._
+import chisel3.util._
+
+case object AluOp {
+  val Add = "b0000".U
+  val Sub = "b0001".U
+  val And = "b0010".U
+  val Or = "b0011".U
+  val Xor = "b0100".U
+  val Slt = "b0101".U
+  val Sll = "b0110".U
+  val Sltu = "b0111".U
+  val Srl = "b1000".U
+  val Sra = "b1001".U
+}
+
+class AluIO(width: Int) extends Bundle {
+  val a = Input(UInt(width.W))
+  val b = Input(UInt(width.W))
+  val op = Input(UInt(4.W))
+  val out = Output(UInt(width.W))
+}
+
+class Alu(width: Int) extends Module {
+  val io = IO(new AluIO(width))
+
+  val shamt = io.b(4, 0)
+  val opList = List(
+    AluOp.Add -> (io.a + io.b),
+    AluOp.Sub -> (io.a - io.b),
+    AluOp.And -> (io.a & io.b),
+    AluOp.Or -> (io.a | io.b),
+    AluOp.Xor -> (io.a ^ io.b),
+    AluOp.Slt -> (io.a.asSInt < io.b.asSInt).asUInt,
+    AluOp.Sll -> (io.a << shamt),
+    AluOp.Sltu -> (io.a < io.b).asUInt,
+    AluOp.Srl -> (io.a >> shamt),
+    AluOp.Sra -> (io.a.asSInt >> shamt).asUInt
+  )
+
+  io.out := MuxLookup(key = io.op, default = 0.U, mapping = opList)
+
+//  printf(s"a: %d, b: %d, op: %d, out: %d\n", io.a, io.b, io.op, io.out)
+}
+
+object Alu {
+  def apply(width: Int, a: UInt, b: UInt, op: UInt) = {
+    val alu = new Alu(width)
+    alu.io.a := a
+    alu.io.b := b
+    alu.io.op := op
+    alu.io.out
+  }
+}

@@ -1,6 +1,6 @@
 import chisel3.stage._
 import firrtl.options.TargetDirAnnotation
-import core.Adder
+import core.Alu
 
 object Main extends App {
   def defaultDir = "./build"
@@ -9,7 +9,7 @@ object Main extends App {
     args,
     Seq(
       ThrowOnFirstErrorAnnotation,
-      ChiselGeneratorAnnotation(() => new Adder(4)),
+      ChiselGeneratorAnnotation(() => new Alu(32)),
       TargetDirAnnotation(if (args.isEmpty) defaultDir else args.head)
     )
   )
