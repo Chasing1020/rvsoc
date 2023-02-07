@@ -31,7 +31,7 @@ object ScalaAlu {
 }
 
 class AluTest extends AnyFlatSpec with ChiselScalatestTester {
-  behavior.of("alu")
+  behavior.of("Alu32")
 
   it should "success" in {
     test(new Alu(32)) { dut =>
@@ -44,8 +44,7 @@ class AluTest extends AnyFlatSpec with ChiselScalatestTester {
         dut.io.a.poke(a.U)
         dut.io.b.poke(b.U)
         dut.io.op.poke(op.U)
-//        dut.clock.step(1)
-        println(s"a: $a, b: $b, op: $op, expected: ${ScalaAlu(op, a, b)}")
+//        println(s"a: $a, b: $b, op: $op, expected: ${ScalaAlu(op, a, b)}")
         dut.io.out.expect(ScalaAlu(BigInt(op), a, b).U, s"a: $a, b: $b, op: $op")
       }
     }
