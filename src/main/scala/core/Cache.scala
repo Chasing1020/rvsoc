@@ -2,25 +2,29 @@ package core
 
 import chisel3._
 import chisel3.util._
+import chisel3.experimental._
 
-class CacheReq extends CfgBundle {
+class CacheReq extends CacheBundle {
   val addr = UInt(XLen.W)
   val data = UInt(XLen.W)
   val mask = UInt((XLen / 8).W)
 }
 
-class CacheResp extends CfgBundle {
+class CacheResp extends CacheBundle {
   val data = UInt(XLen.W)
 }
 
-class CacheIO extends CfgBundle {
+class CacheIO extends CacheBundle {
   val abort = Input(Bool())
   val req = Flipped(Valid(new CacheReq))
   val resp = Valid(new CacheResp)
 }
 
-class Cache extends Module {
+object CacheState extends ChiselEnum {}
+
+class Cache extends CacheModule {
   val io = IO(new CacheIO)
+  val idle :: compareTag :: allocate :: writeBack :: Nil = Enum(4)
 
-
+  // todo: add cache
 }

@@ -9,11 +9,12 @@ class BranchIO extends Bundle {
   val target = Input(UInt(32.W))
 }
 
-class Ifu extends CfgModule {
+class Ifu extends CoreModule {
   val io = IO(new Bundle() {
-    val mem = new MemIO
-    val out = Flipped(new ControlIO)
+    val mem = new MemIO // todo: convert to AXI4
     val br = new BranchIO
+
+    val out = Flipped(new ControlIO)
   })
 
   val pc = RegInit(ResetVector.U(XLen.W))

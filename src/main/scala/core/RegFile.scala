@@ -3,7 +3,7 @@ package core
 import chisel3._
 import chisel3.util._
 
-class RegFileIO extends CfgBundle {
+class RegFileIO extends CoreBundle {
   val raddr1 = Input(UInt(log2Ceil(RegNum).W))
   val rdata1 = Output(UInt(XLen.W))
 
@@ -15,7 +15,7 @@ class RegFileIO extends CfgBundle {
   val wdata = Input(UInt(XLen.W))
 }
 
-class RegFile extends CfgModule {
+class RegFile extends CoreModule {
   val io = IO(new RegFileIO)
 
   val regs = Mem(RegNum, UInt(XLen.W))
