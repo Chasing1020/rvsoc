@@ -4,16 +4,16 @@ import chisel3._
 import chisel3.util._
 
 case object AluOp {
-  val Add = "b0000".U
-  val Sub = "b0001".U
-  val And = "b0010".U
-  val Or = "b0011".U
-  val Xor = "b0100".U
-  val Slt = "b0101".U
-  val Sll = "b0110".U
-  val Sltu = "b0111".U
-  val Srl = "b1000".U
-  val Sra = "b1001".U
+  final val Add = "b0000".U
+  final val Sub = "b0001".U
+  final val And = "b0010".U
+  final val Or = "b0011".U
+  final val Xor = "b0100".U
+  final val Slt = "b0101".U
+  final val Sll = "b0110".U
+  final val Sltu = "b0111".U
+  final val Srl = "b1000".U
+  final val Sra = "b1001".U
 }
 
 class AluIO(width: Int) extends Bundle {

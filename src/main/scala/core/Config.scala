@@ -10,6 +10,8 @@ trait Config {
   final val MemSize: Int = 8 * 1024 * 1024
 
   final val ResetVector: Int = MemBase
+
+  final val VAddrBits: Int = 32
 }
 
 abstract class CfgModule extends Module with Config

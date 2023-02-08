@@ -4,7 +4,6 @@ import chisel3._
 import chiseltest._
 import org.scalatest.flatspec.AnyFlatSpec
 
-import scala.language.implicitConversions
 
 class RegFileTest extends AnyFlatSpec with ChiselScalatestTester {
   behavior.of("RegFile")
