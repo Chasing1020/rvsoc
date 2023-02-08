@@ -1,5 +1,6 @@
 package core
 
+import chisel3._
 import chisel3.util._
 
 object Instruction {
@@ -13,4 +14,14 @@ object Instruction {
 
   final val NOP   = BitPat("b00000000000000000000000000010011")
   // format: on
+}
+
+object InstType {
+  final val N = "b000".U
+  final val I = "b100".U
+  final val R = "b101".U
+  final val S = "b010".U
+  final val B = "b001".U
+  final val U = "b110".U
+  final val J = "b111".U
 }

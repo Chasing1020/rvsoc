@@ -2,7 +2,7 @@ package core
 
 import chisel3._
 
-trait Config {
+trait CoreConfig {
   final val XLen:   Int = 64
   final val RegNum: Int = 32
 
@@ -14,5 +14,12 @@ trait Config {
   final val VAddrBits: Int = 32
 }
 
-abstract class CfgModule extends Module with Config
-abstract class CfgBundle extends Bundle with Config
+trait CacheConfig extends CoreConfig {
+  final val WayNum = 1
+  final val SetNum = 256
+  final val BlockBytes = 4 * (XLen / 8)
+  final val BlockBits = 4 * (XLen / 8) << 3
+}
+
+abstract class CfgModule extends Module with CoreConfig
+abstract class CfgBundle extends Bundle with CoreConfig
