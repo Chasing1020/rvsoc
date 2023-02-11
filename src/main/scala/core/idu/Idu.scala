@@ -35,14 +35,11 @@ class Idu extends CoreModule {
 
   val instType :: fuName :: opType :: Nil = Decoder(io.in.inst)
   val imm = ImmGen(io.in.inst, instType)
-  val rd_addr = io.in.inst(11, 7)
-  val rs1_addr = io.in.inst(19, 15)
-  val rs2_addr = io.in.inst(24, 20)
 
   //  fixme: add regFile in data path
-  io.rg.raddr1 := rs1_addr
-  io.rg.raddr2 := rs2_addr
-  io.rg.waddr := rd_addr
+  io.rg.raddr1 := io.in.inst(19, 15)
+  io.rg.raddr2 := io.in.inst(24, 20)
+  io.rg.waddr := io.in.inst(11, 7)
 
   val wenSeq = Seq(InstType.I, InstType.U, InstType.R, InstType.J)
   io.rg.wen := MuxLookup(io.in.inst, false.B, wenSeq.zip(Seq.fill(wenSeq.length)(true.B)))

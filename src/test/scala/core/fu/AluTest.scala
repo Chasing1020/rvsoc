@@ -1,8 +1,7 @@
-package core
+package core.fu
 
 import chisel3._
 import chiseltest._
-import core.fu.{Alu, AluOp}
 import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.language.implicitConversions
