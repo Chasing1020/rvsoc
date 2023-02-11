@@ -1,9 +1,10 @@
 package core
 
 import chisel3._
+import chisel3.experimental.ChiselEnum
 import chisel3.util._
 
-object Instruction {
+case object Instruction {
   // format: off
   final val LUI   = BitPat("b?????????????????????????0110111")
   final val AUIPC = BitPat("b?????????????????????????0010111")
@@ -16,12 +17,12 @@ object Instruction {
   // format: on
 }
 
-object InstType {
-  final val N = "b000".U
-  final val I = "b001".U
-  final val S = "b010".U
-  final val B = "b011".U
-  final val U = "b100".U
-  final val J = "b101".U
-  final val R = "b110".U
+case object InstType {
+  final val UNKNOWN: UInt = "b000".U
+  final val I:       UInt = "b001".U
+  final val S:       UInt = "b010".U
+  final val B:       UInt = "b011".U
+  final val U:       UInt = "b100".U
+  final val J:       UInt = "b101".U
+  final val R:       UInt = "b110".U
 }

@@ -3,13 +3,14 @@ package core
 import chisel3._
 import chisel3.util._
 
-class ImmGen extends CoreModule {
-  val io = IO(new Bundle {
-    val inst = Input(UInt(VAddrBits.W))
-    val instType = Input(chiselTypeOf(InstType.I))
+class ImmGenIO extends CoreBundle {
+  val inst = Input(UInt(VAddrBits.W))
+  val instType = Input(UInt(3.W))
+  val imm = Output(UInt(XLen.W))
+}
 
-    val imm = Output(UInt(XLen.W))
-  })
+class ImmGen extends CoreModule {
+  val io = IO(new ImmGenIO)
 
   val inst = io.inst
   io.imm := MuxLookup(

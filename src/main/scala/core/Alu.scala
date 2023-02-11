@@ -1,19 +1,20 @@
 package core
 
 import chisel3._
+import chisel3.experimental.ChiselEnum
 import chisel3.util._
 
 case object AluOp {
-  final val Add = "b0000".U
-  final val Sub = "b0001".U
-  final val And = "b0010".U
-  final val Or = "b0011".U
-  final val Xor = "b0100".U
-  final val Slt = "b0101".U
-  final val Sll = "b0110".U
-  final val Sltu = "b0111".U
-  final val Srl = "b1000".U
-  final val Sra = "b1001".U
+  final val Add:  UInt = "b0000".U
+  final val Sub:  UInt = "b0001".U
+  final val And:  UInt = "b0010".U
+  final val Or:   UInt = "b0011".U
+  final val Xor:  UInt = "b0100".U
+  final val Slt:  UInt = "b0101".U
+  final val Sll:  UInt = "b0110".U
+  final val Sltu: UInt = "b0111".U
+  final val Srl:  UInt = "b1000".U
+  final val Sra:  UInt = "b1001".U
 }
 
 class AluIO(width: Int) extends Bundle {
@@ -39,7 +40,6 @@ class Alu(width: Int) extends Module {
     AluOp.Srl -> (io.a >> shamt),
     AluOp.Sra -> (io.a.asSInt >> shamt).asUInt
   )
-
   io.out := MuxLookup(key = io.op, default = 0.U, mapping = opList)
 
 //  printf(s"a: %d, b: %d, op: %d, out: %d\n", io.a, io.b, io.op, io.out)
