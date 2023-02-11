@@ -15,7 +15,7 @@ class IduTester extends BasicTester {
   dut.io.in.inst := "x06400093".U // addi x1, x0, 100
 
   stop()
-  printf("Inst: 0x%x, rs1: 0x%x, rs2: 0x%x\n", dut.io.in.inst, dut.io.data.rs1, dut.io.data.rs2)
+  printf("Inst: 0x%x, rs1: 0x%x, rs2: 0x%x\n", dut.io.in.inst, dut.io.out.data.rs1, dut.io.out.data.rs2)
 }
 
 class IduTest extends AnyFlatSpec with ChiselScalatestTester {

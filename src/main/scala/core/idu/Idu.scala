@@ -20,12 +20,17 @@ class FuControlIO extends Bundle {
   val op = Output(UInt(4.W))
 }
 
+class IduIO extends CoreBundle {
+  val pc = Output(UInt(32.W))
+  val data = new DataPathIO
+  val fu = new FuControlIO
+}
+
 class Idu extends CoreModule {
   val io = IO(new Bundle {
     val in = new ControlIO
     val rg = Flipped(new RegFileIO)
-    val data = new DataPathIO
-    val fu = new FuControlIO
+    val out = new IduIO
   })
 
   val instType :: fuName :: opType :: Nil = Decoder(io.in.inst)
@@ -55,11 +60,12 @@ class Idu extends CoreModule {
     )
   )
 
-  io.data.rs1 := rs1
-  io.data.rs2 := rs2
-  io.fu.name := fuName
-  io.fu.op := opType
+  io.out.data.rs1 := rs1
+  io.out.data.rs2 := rs2
+  io.out.fu.name := fuName
+  io.out.fu.op := opType
 
   io.rg.wdata := DontCare
-  io.data.dest := DontCare
+  io.out.data.dest := DontCare
+  io.out.pc := io.in.pc
 }
