@@ -1,0 +1,35 @@
+package core
+
+import chisel3._
+import chisel3.util._
+
+class ImmGen extends CoreModule {
+  val io = IO(new Bundle {
+    val inst = Input(UInt(VAddrBits.W))
+    val instType = Input(chiselTypeOf(InstType.I))
+
+    val imm = Output(UInt(XLen.W))
+  })
+
+  val inst = io.inst
+  io.imm := MuxLookup(
+    key = io.instType,
+    default = 0.U,
+    mapping = List(
+      InstType.I -> Cat(Fill(20, inst(31)), inst(31, 20)),
+      InstType.S -> Cat(Fill(20, inst(31)), inst(31, 25), inst(11, 7)),
+      InstType.B -> Cat(Fill(20, inst(31)), inst(7), inst(30, 25), inst(11, 8), 0.U(1.W)),
+      InstType.U -> Cat(inst(31, 12), 0.U(12.W)),
+      InstType.J -> Cat(Fill(12, inst(31)), inst(19, 12), inst(20), inst(30, 21), 0.U(1.W))
+    )
+  )
+}
+
+object ImmGen {
+  def apply(inst: UInt, instType: UInt): UInt = {
+    val immGen = new ImmGen
+    immGen.io.inst := inst
+    immGen.io.instType := instType
+    immGen.io.imm
+  }
+}

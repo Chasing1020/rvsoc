@@ -8,6 +8,9 @@ class ControlIO extends CoreBundle {
 }
 
 class Idu extends CoreModule {
-  val io = IO(new ControlIO)
+  val io = IO(new Bundle {
+    val in = new ControlIO
+    val out = Flipped(new ControlIO)
+  })
 
 }

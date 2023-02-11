@@ -18,10 +18,10 @@ object Instruction {
 
 object InstType {
   final val N = "b000".U
-  final val I = "b100".U
-  final val R = "b101".U
+  final val I = "b001".U
   final val S = "b010".U
-  final val B = "b001".U
-  final val U = "b110".U
-  final val J = "b111".U
+  final val B = "b011".U
+  final val U = "b100".U
+  final val J = "b101".U
+  final val R = "b110".U
 }

@@ -2,7 +2,9 @@ package memory
 
 import chisel3._
 import chisel3.util._
+import chisel3.util.experimental.loadMemoryFromFileInline
 import core._
+import firrtl.annotations.MemoryLoadFileType
 
 // Read & Write address channel
 class AXI4LiteBundleA extends AXI4Bundle {
@@ -42,22 +44,23 @@ class AXI4Memory extends CoreModule with AXI4Spec {
 
 // todo: convert to AMBA AXI and ACE Protocol Specification
 class MemIO extends CoreBundle {
-  val readEnable = Input(Bool())
-  val readAddr = Input(UInt(log2Ceil(XLen).W))
-  val dataOut = Output(UInt(XLen.W))
-
-  val writeEnable = Input(Bool())
-  val writeAddr = Input(UInt(log2Ceil(XLen).W))
+  val enable = Input(Bool())
+  val write = Input(Bool())
+  val addr = Input(UInt(log2Ceil(XLen).W))
   val dataIn = Input(UInt(XLen.W))
+  val dataOut = Output(UInt(XLen.W))
 }
 
-class Memory extends CoreModule {
+class Memory(filePath: String = "") extends CoreModule {
   val io = IO(new MemIO)
 
   val mem = SyncReadMem(MemBytes, UInt(XLen.W))
-
-  when(io.writeEnable) {
-    mem.write(io.writeAddr, io.dataIn)
+  if (filePath.trim().nonEmpty) {
+    loadMemoryFromFileInline(mem, filePath, MemoryLoadFileType.Hex)
   }
-  io.dataOut := mem.read(io.readAddr, io.readEnable)
+
+  io.dataOut := DontCare
+  when(io.enable) {
+    when(io.write) { mem(io.addr) := io.dataIn }.otherwise { io.dataOut := mem(io.addr) }
+  }
 }

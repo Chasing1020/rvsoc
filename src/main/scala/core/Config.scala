@@ -7,8 +7,8 @@ trait CoreConfig {
   final val XLen:   Int = 64
   final val RegNum: Int = 32
 
-  final val MemBase:  Int = 0x8000_0000
-  final val MemBytes: Int = 8 * 1024 * 1024
+  final val MemBase:  Int = 0x0000_0000
+  final val MemBytes: Int = 8 * 1024
 
   final val ResetVector: Int = MemBase
 
