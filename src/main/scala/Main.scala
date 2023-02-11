@@ -1,6 +1,6 @@
 import chisel3.stage._
+import core.fu.Alu
 import firrtl.options.TargetDirAnnotation
-import core.Alu
 
 object Main extends App {
   def defaultDir = "./build"

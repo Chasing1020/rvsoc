@@ -1,10 +1,10 @@
-package core
+package core.idu
 
 import chisel3._
 import chiseltest._
-import core.idu.Idu
 import org.scalatest.flatspec.AnyFlatSpec
 import Chisel.testers.BasicTester
+import core.RegFile
 
 class IduTester extends BasicTester {
   val dut = Module(new Idu)

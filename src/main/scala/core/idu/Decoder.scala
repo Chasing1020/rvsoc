@@ -3,11 +3,11 @@ package core.idu
 import chisel3._
 import chisel3.util._
 import chisel3.util.experimental.decode._
+import core.fu.AluOp
 import core.idu.Decoder._
 import core.idu.Instruction._
-import core.AluOp
 
-case object FuType {
+case object FuName {
   final val Unknown: UInt = "b00".U
   final val Alu:     UInt = "b01".U
   final val Bru:     UInt = "b10".U
@@ -23,7 +23,7 @@ case object BruOp {
 class DecoderIO extends Bundle {
   val inst = Input(UInt(32.W))
   val instType = Output(UInt(4.W))
-  val fuType = Output(UInt(4.W))
+  val fuName = Output(UInt(4.W))
   val opType = Output(UInt(4.W))
 }
 
@@ -32,33 +32,34 @@ class Decoder extends Module {
 
   val instructions = rules.map(_._1)
 
-//  val table = instructions.zipWithIndex.map { i => (i._1, BitPat(i._2.U)) }
-//  val index = decoder(io.inst, TruthTable(table, default = NOP))
-//  val instType :: fuType :: opType :: Nil = rules(index.litValue.toInt)._2
+  // todo: finish qmc
+//  val table: Iterable[(BitPat, BitPat)] = instructions.zipWithIndex.map { i => (i._1, BitPat(i._2.U(3.W))) }
+//  val index = decoder(io.inst, TruthTable(table, default = BitPat(0.U(3.W))))
+//  val instType :: fuName :: opType :: Nil = rules(index.litValue.toInt)._2
 
-  val instType :: fuType :: opType :: Nil = ListLookup(io.inst, default, rules)
+  val instType :: fuName :: opType :: Nil = ListLookup(io.inst, default, rules)
   io.instType := instType
-  io.fuType := fuType
+  io.fuName := fuName
   io.opType := opType
 }
 
 object Decoder {
-  val default = List(InstType.Unknown, FuType.Unknown, AluOp.Unknown)
+  val default = List(InstType.Unknown, FuName.Unknown, AluOp.Unknown)
 
   // todo: finish all instructions
   // format: off
   val rules = Array(
-    LUI   -> List(InstType.U, FuType.Alu, AluOp.Lui ),
-    AUIPC -> List(InstType.U, FuType.Alu, AluOp.Add ),
-    JAL   -> List(InstType.J, FuType.Bru, BruOp.Jal ),
-    JALR  -> List(InstType.I, FuType.Bru, BruOp.Jalr),
-    ADDI  -> List(InstType.I, FuType.Alu, AluOp.Add ),
+    LUI   -> List(InstType.U, FuName.Alu, AluOp.CopyB),
+    AUIPC -> List(InstType.U, FuName.Alu, AluOp.Add  ),
+    JAL   -> List(InstType.J, FuName.Bru, BruOp.Jal  ),
+    JALR  -> List(InstType.I, FuName.Bru, BruOp.Jalr ),
+    ADDI  -> List(InstType.I, FuName.Alu, AluOp.Add  ),
   )
   // format: on
 
   def apply(inst: UInt) = {
     val d = Module(new Decoder)
     d.io.inst := inst
-    List(d.io.instType, d.io.fuType, d.io.opType)
+    List(d.io.instType, d.io.fuName, d.io.opType)
   }
 }

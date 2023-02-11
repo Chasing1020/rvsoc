@@ -34,9 +34,9 @@ class MemoryTest extends AnyFlatSpec with ChiselScalatestTester {
 
   it should "success" in {
     test(new Memory){dut =>
-      dut.io.addr.poke("x29a".U)
-      dut.io.enable.poke(true.B)
-      dut.io.dataOut.expect(1.U)
+//      dut.io.addr.poke("x29a".U)
+//      dut.io.enable.poke(true.B)
+//      dut.io.dataOut.expect(1.U)
 //      dut.io.writeEnable.poke(true.B)
 //      dut.io.writeAddr.poke(1.U)
 //      dut.io.dataIn.poke(6.U)

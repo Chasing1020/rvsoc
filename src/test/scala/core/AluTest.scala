@@ -2,6 +2,7 @@ package core
 
 import chisel3._
 import chiseltest._
+import core.fu.{Alu, AluOp}
 import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.language.implicitConversions
@@ -24,7 +25,9 @@ object ScalaAlu {
       AluOp.Sll.litValue -> (asSigned(a) << shamt),
       AluOp.Sltu.litValue -> (asUnsigned(a) < asUnsigned(b)),
       AluOp.Srl.litValue -> (asUnsigned(a) >> shamt),
-      AluOp.Sra.litValue -> (asSigned(a) >> shamt)
+      AluOp.Sra.litValue -> (asSigned(a) >> shamt),
+      AluOp.CopyA.litValue -> a,
+      AluOp.CopyB.litValue -> b
     )
     asUnsigned(table.getOrElse(op, 0L))
   }

@@ -1,4 +1,4 @@
-package core
+package core.fu
 
 import chisel3._
 import chisel3.util._
@@ -15,7 +15,8 @@ case object AluOp {
   final val Sltu:    UInt = "b1000".U
   final val Srl:     UInt = "b1001".U
   final val Sra:     UInt = "b1010".U
-  final val Lui:     UInt = "b1011".U
+  final val CopyA:   UInt = "b1011".U
+  final val CopyB:   UInt = "b1100".U
 }
 
 class AluIO(width: Int) extends Bundle {
@@ -40,7 +41,8 @@ class Alu(width: Int) extends Module {
     AluOp.Sltu -> (io.a < io.b).asUInt,
     AluOp.Srl -> (io.a >> shamt),
     AluOp.Sra -> (io.a.asSInt >> shamt).asUInt,
-    AluOp.Lui -> io.b
+    AluOp.CopyA -> io.a,
+    AluOp.CopyB -> io.b
   )
   io.out := MuxLookup(key = io.op, default = 0.U, mapping = opList)
 

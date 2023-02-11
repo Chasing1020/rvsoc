@@ -15,16 +15,20 @@ class DataPathIO extends CoreBundle {
   val dest = Output(UInt(XLen.W))
 }
 
+class FuControlIO extends Bundle {
+  val name = Output(UInt(4.W))
+  val op = Output(UInt(4.W))
+}
+
 class Idu extends CoreModule {
   val io = IO(new Bundle {
     val in = new ControlIO
     val rg = Flipped(new RegFileIO)
     val data = new DataPathIO
-    val fuType = Output(UInt(4.W))
-    val opType = Output(UInt(4.W))
+    val fu = new FuControlIO
   })
 
-  val instType :: fuType :: opType :: Nil = Decoder(io.in.inst)
+  val instType :: fuName :: opType :: Nil = Decoder(io.in.inst)
   val imm = ImmGen(io.in.inst, instType)
   val rd_addr = io.in.inst(11, 7)
   val rs1_addr = io.in.inst(19, 15)
@@ -53,8 +57,8 @@ class Idu extends CoreModule {
 
   io.data.rs1 := rs1
   io.data.rs2 := rs2
-  io.fuType := fuType
-  io.opType := opType
+  io.fu.name := fuName
+  io.fu.op := opType
 
   io.rg.wdata := DontCare
   io.data.dest := DontCare
