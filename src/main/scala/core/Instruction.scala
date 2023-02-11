@@ -18,7 +18,7 @@ case object Instruction {
 }
 
 case object InstType {
-  final val UNKNOWN: UInt = "b000".U
+  final val Unknown: UInt = "b000".U
   final val I:       UInt = "b001".U
   final val S:       UInt = "b010".U
   final val B:       UInt = "b011".U

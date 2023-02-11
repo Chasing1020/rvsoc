@@ -1,7 +1,6 @@
 package core
 
 import chisel3._
-import chisel3.util._
 import memory._
 
 class BranchIO extends Bundle {
@@ -21,7 +20,6 @@ class Ifu extends CoreModule {
 
   pc := Mux(io.br.taken, io.br.target, pc + 4.U)
   io.mem := DontCare
-
 
 //  io.out.inst := io.mem.dataOut
   io.out.inst := "b00000000000100000000010110010011".U // addi x11, x0, 1

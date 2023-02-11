@@ -6,36 +6,56 @@ import chisel3.util.experimental.decode._
 import core.Decoder._
 import core.Instruction._
 
+case object FuType {
+  final val Unknown: UInt = "b00".U
+  final val Alu:     UInt = "b01".U
+  final val Bru:     UInt = "b10".U
+  final val Lsu:     UInt = "b11".U
+}
+
+case object BruOp {
+  final val Unknown: UInt = "b0000".U
+  final val Jal:     UInt = "b0001".U
+  final val Jalr:    UInt = "b0010".U
+}
+
 class DecoderIO extends Bundle {
   val inst = Input(UInt(32.W))
-  val out = Output(UInt())
+  val instType = Output(UInt(4.W))
+  val fuType = Output(UInt(4.W))
+  val opType = Output(UInt(4.W))
 }
 
 class Decoder extends Module {
   val io = IO(new DecoderIO)
 
-  io.out := rules(decoder(io.inst, TruthTable(table, default = NOP)).litValue.toInt)._2
+  val instructions = rules.map(_._1)
+
+  val table = instructions.zipWithIndex.map { i => (i._1, BitPat(i._2.U)) }
+  val index = decoder(io.inst, TruthTable(table, default = NOP))
+  val instType :: fuType :: opType :: Nil = rules(index.litValue.toInt)._2
+  io.instType := instType
+  io.fuType := fuType
+  io.opType := opType
 }
 
 object Decoder {
-  // todo: add spec rule enum
-  val rules = Seq(
-    LUI -> 0.U,
-    AUIPC -> 1.U,
-    JAL -> 2.U,
-    JALR -> 3.U,
-    ADDI -> 4.U
+  val default = List(InstType.Unknown, FuType.Unknown, AluOp.Unknown)
+
+  // todo: finish all instructions
+  // format: off
+  val rules = Array(
+    LUI   -> List(InstType.U, FuType.Alu, AluOp.Lui ),
+    AUIPC -> List(InstType.U, FuType.Alu, AluOp.Add ),
+    JAL   -> List(InstType.J, FuType.Bru, BruOp.Jal ),
+    JALR  -> List(InstType.I, FuType.Bru, BruOp.Jalr),
+    ADDI  -> List(InstType.I, FuType.Alu, AluOp.Add ),
   )
-
-  val instructions = rules.map(_._1)
-
-  val table: Iterable[(BitPat, BitPat)] = instructions.zipWithIndex.map { i =>
-    (i._1, BitPat(i._2.U))
-  }
+  // format: on
 
   def apply(inst: UInt) = {
     val d = new Decoder
     d.io.inst := inst
-    rules(d.io.out.litValue.toInt)._2
+    List(d.io.instType, d.io.fuType, d.io.opType)
   }
 }
