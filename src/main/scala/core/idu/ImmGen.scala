@@ -1,7 +1,8 @@
-package core
+package core.idu
 
 import chisel3._
 import chisel3.util._
+import core.{CoreBundle, CoreModule}
 
 class ImmGenIO extends CoreBundle {
   val inst = Input(UInt(VAddrBits.W))
@@ -28,7 +29,7 @@ class ImmGen extends CoreModule {
 
 object ImmGen {
   def apply(inst: UInt, instType: UInt): UInt = {
-    val immGen = new ImmGen
+    val immGen = Module(new ImmGen)
     immGen.io.inst := inst
     immGen.io.instType := instType
     immGen.io.imm

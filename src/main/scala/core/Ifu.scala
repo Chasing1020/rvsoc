@@ -1,6 +1,7 @@
 package core
 
 import chisel3._
+import core.idu.ControlIO
 import memory._
 
 class BranchIO extends Bundle {

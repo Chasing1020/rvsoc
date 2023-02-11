@@ -2,6 +2,7 @@ package core
 
 import chisel3._
 import chiseltest._
+import core.idu.{ImmGen, InstType}
 import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.language.implicitConversions

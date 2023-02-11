@@ -49,7 +49,7 @@ class Alu(width: Int) extends Module {
 
 object Alu {
   def apply(width: Int, a: UInt, b: UInt, op: UInt) = {
-    val alu = new Alu(width)
+    val alu = Module(new Alu(width))
     alu.io.a := a
     alu.io.b := b
     alu.io.op := op

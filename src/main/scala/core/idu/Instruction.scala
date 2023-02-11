@@ -1,7 +1,6 @@
-package core
+package core.idu
 
 import chisel3._
-import chisel3.experimental.ChiselEnum
 import chisel3.util._
 
 case object Instruction {

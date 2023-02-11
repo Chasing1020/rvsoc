@@ -2,6 +2,7 @@ package core
 
 import chisel3._
 import chiseltest._
+import core.idu.{Decoder, FuType, InstType}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class DecoderTest extends AnyFlatSpec with ChiselScalatestTester {

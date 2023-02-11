@@ -1,10 +1,11 @@
-package core
+package core.idu
 
 import chisel3._
 import chisel3.util._
 import chisel3.util.experimental.decode._
-import core.Decoder._
-import core.Instruction._
+import core.idu.Decoder._
+import core.idu.Instruction._
+import core.AluOp
 
 case object FuType {
   final val Unknown: UInt = "b00".U
@@ -31,9 +32,11 @@ class Decoder extends Module {
 
   val instructions = rules.map(_._1)
 
-  val table = instructions.zipWithIndex.map { i => (i._1, BitPat(i._2.U)) }
-  val index = decoder(io.inst, TruthTable(table, default = NOP))
-  val instType :: fuType :: opType :: Nil = rules(index.litValue.toInt)._2
+//  val table = instructions.zipWithIndex.map { i => (i._1, BitPat(i._2.U)) }
+//  val index = decoder(io.inst, TruthTable(table, default = NOP))
+//  val instType :: fuType :: opType :: Nil = rules(index.litValue.toInt)._2
+
+  val instType :: fuType :: opType :: Nil = ListLookup(io.inst, default, rules)
   io.instType := instType
   io.fuType := fuType
   io.opType := opType
@@ -54,7 +57,7 @@ object Decoder {
   // format: on
 
   def apply(inst: UInt) = {
-    val d = new Decoder
+    val d = Module(new Decoder)
     d.io.inst := inst
     List(d.io.instType, d.io.fuType, d.io.opType)
   }
