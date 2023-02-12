@@ -2,7 +2,6 @@ package core.idu
 
 import chisel3._
 import chisel3.util._
-import chisel3.util.experimental.decode._
 import core.fu.AluOp
 import core.idu.Decoder._
 import core.idu.Instruction._

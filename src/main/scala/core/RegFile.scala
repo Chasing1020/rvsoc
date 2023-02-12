@@ -29,4 +29,5 @@ class RegFile extends CoreModule {
   when(io.w.en & io.w.addr.orR) {
     regs(io.w.addr) := io.w.data
   }
+//  (1 until RegNum).foreach(i => printf(cf"\tRegFile.x$i%02d: ${regs(i.U)}\n"))
 }

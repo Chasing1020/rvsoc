@@ -2,7 +2,7 @@ package core
 
 import chisel3._
 import core.fu.BranchOut
-import core.idu.ControlOut
+import core.idu.InstPcOut
 import memory._
 
 
@@ -11,7 +11,7 @@ class Ifu extends CoreModule {
     val mem = new MemIO // todo: convert to AXI4
     val br = Flipped(new BranchOut)
 
-    val out = new ControlOut
+    val out = new InstPcOut
   })
 
   val pc = RegInit(ResetVector.U(XLen.W))
