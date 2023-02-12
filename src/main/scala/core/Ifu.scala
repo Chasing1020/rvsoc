@@ -4,6 +4,7 @@ import chisel3._
 import core.fu.BranchOut
 import core.idu.InstPcOut
 import memory._
+import utils._
 
 
 class Ifu extends CoreModule {
@@ -22,4 +23,6 @@ class Ifu extends CoreModule {
 //  io.out.inst := io.mem.dataOut
   io.out.inst := "b00000000000100000000010110010011".U // addi x11, x0, 1
   io.out.pc := pc
+
+  Trace(cf"$io")
 }

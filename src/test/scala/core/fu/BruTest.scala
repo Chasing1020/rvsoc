@@ -7,6 +7,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import Chisel.testers.BasicTester
 import chisel3.util.Counter
 import core.RegFile
+import utils._
 
 class BruTester extends BasicTester {
   val idu = Module(new Idu)
@@ -31,13 +32,11 @@ class BruTester extends BasicTester {
 
   val bruOut = Bru(rs1 = rs1, rs2 = rs2, op = op, nextPc = pc + 4.U, offset = offset)
   when(done) { stop() }
-  printf(
-    cf"Case: $i, Inst: ${insts(i)}\n" +
-      cf"\t${idu.io.out.data}\n" +
-      cf"\t${idu.io.out.rfw}\n" +
-      cf"\t${idu.io.out.fc}\n" +
-      cf"\t$bruOut\n"
-  )
+  Info(cf"Case: $i, Inst: ${insts(i)}")
+  Debug(cf"\t${idu.io.out.data}")
+  Debug(cf"\t${idu.io.out.rfw}")
+  Debug(cf"\t${idu.io.out.fc}")
+  Debug(cf"\t$bruOut")
 //  printf("Inst: 0x%x, rs1: 0x%x, rs2: 0x%x\n", dut.io.in.inst, dut.io.out.data.rs1, dut.io.out.data.rs2)
 }
 

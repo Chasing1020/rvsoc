@@ -6,9 +6,11 @@ import chisel3.util._
 import org.scalatest.flatspec.AnyFlatSpec
 import Chisel.testers.BasicTester
 import core.RegFile
-import utils.MuxList
+import utils._
 
 class IduTester extends BasicTester {
+  Logger.level = Level.Trace
+
   val dut = Module(new Idu)
   val rf = Module(new RegFile)
   rf.io <> dut.io.rg
@@ -16,8 +18,8 @@ class IduTester extends BasicTester {
   val insts = VecInit(
     Seq(
       "x00a28293".U, // addi x5, x5, 10
-//      "x00a302e7".U, // jalr x5, x6, 10
-//      "x007302b3".U, // add x5, x6, x7
+      "x00a302e7".U, // jalr x5, x6, 10
+      "x007302b3".U, // add x5, x6, x7
       "x00628863".U // beq x5, x6, 16
     )
   )
@@ -28,12 +30,10 @@ class IduTester extends BasicTester {
 
   when(done) { stop() }
 
-  printf(
-    cf"Case: $i, Inst: ${insts(i)}\n" +
-      cf"\t${dut.io.out.data}\n" +
-      cf"\t${dut.io.out.rfw}\n" +
-      cf"\t${dut.io.out.fc}\n"
-  )
+  Info(cf"Case: $i, Inst: ${insts(i)}")
+  Debug(cf"\t${dut.io.out.data}")
+  Debug(cf"\t${dut.io.out.rfw}")
+  Debug(cf"\t${dut.io.out.fc}")
 }
 
 class LookUpTest extends BasicTester {

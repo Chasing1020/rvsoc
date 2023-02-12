@@ -37,11 +37,6 @@ class Decoder extends Module {
 
   val instructions = rules.map(_._1)
 
-  // todo: finish qmc
-//  val table: Iterable[(BitPat, BitPat)] = instructions.zipWithIndex.map { i => (i._1, BitPat(i._2.U(3.W))) }
-//  val index = decoder(io.inst, TruthTable(table, default = BitPat(0.U(3.W))))
-//  val instType :: fuName :: opType :: Nil = rules(index.litValue.toInt)._2
-
   val instType :: fuName :: opType :: Nil = ListLookup(io.inst, default, rules)
   io.instType := instType
   io.fuName := fuName

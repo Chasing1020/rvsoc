@@ -2,6 +2,7 @@ package core.fu
 
 import chisel3._
 import chisel3.util._
+import utils._
 
 case object AluOp {
   final val Unknown: UInt = "b0000".U
@@ -45,8 +46,7 @@ class Alu(width: Int) extends Module {
     AluOp.CopyB -> io.b
   )
   io.out := MuxLookup(key = io.op, default = 0.U, mapping = opList)
-
-//  printf(s"a: %d, b: %d, op: %d, out: %d\n", io.a, io.b, io.op, io.out)
+  Trace(cf"$io")
 }
 
 object Alu {

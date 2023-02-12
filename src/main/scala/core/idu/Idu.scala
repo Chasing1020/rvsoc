@@ -2,6 +2,7 @@ package core.idu
 
 import chisel3._
 import core._
+import utils._
 
 class InstPcOut extends CoreBundle {
   val inst = Output(UInt(VAddrBits.W))
@@ -65,4 +66,6 @@ class Idu extends CoreModule {
 
   io.rg.w := DontCare
   io.out.pc := io.in.pc
+
+  Trace(cf"$io")
 }
