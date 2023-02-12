@@ -10,27 +10,27 @@ class RegFileTest extends AnyFlatSpec with ChiselScalatestTester {
 
   it should "success" in {
     test(new RegFile) { dut =>
-      dut.io.waddr.poke(0.U)
-      dut.io.wdata.poke(1.U)
-      dut.io.wen.poke(true.B)
+      dut.io.w.addr.poke(0.U)
+      dut.io.w.data.poke(1.U)
+      dut.io.w.en.poke(true.B)
       dut.clock.step(1)
 
-      dut.io.waddr.poke(5.U)
-      dut.io.wdata.poke(6.U)
-      dut.io.wen.poke(true.B)
+      dut.io.w.addr.poke(5.U)
+      dut.io.w.data.poke(6.U)
+      dut.io.w.en.poke(true.B)
       dut.clock.step(1)
 
-      dut.io.waddr.poke(6.U)
-      dut.io.wdata.poke(7.U)
-      dut.io.wen.poke(true.B)
+      dut.io.w.addr.poke(6.U)
+      dut.io.w.data.poke(7.U)
+      dut.io.w.en.poke(true.B)
       dut.clock.step(1)
 
-      dut.io.raddr1.poke(0.U)
-      dut.io.rdata1.expect(0.U)
-      dut.io.raddr2.poke(5.U)
-      dut.io.rdata2.expect(6.U)
-      dut.io.raddr1.poke(6.U)
-      dut.io.rdata1.expect(7.U)
+      dut.io.r1.addr.poke(0.U)
+      dut.io.r1.data.expect(0.U)
+      dut.io.r2.addr.poke(5.U)
+      dut.io.r2.data.expect(6.U)
+      dut.io.r1.addr.poke(6.U)
+      dut.io.r1.data.expect(7.U)
     }
   }
 }

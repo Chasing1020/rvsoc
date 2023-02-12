@@ -64,8 +64,26 @@ object Decoder {
     BLT   -> List(InstType.B, FuName.Bru, BruOp.Blt  ),
     BGE   -> List(InstType.B, FuName.Bru, BruOp.Bge  ),
     BLTU  -> List(InstType.B, FuName.Bru, BruOp.Bltu ),
-    BGEU  -> List(InstType.B, FuName.Bru, BruOp.Bgeu ),
+    BGEU  -> List(InstType.B, FuName.Bru, BruOp.Bgeu ), // todo: LSU
     ADDI  -> List(InstType.I, FuName.Alu, AluOp.Add  ),
+    SLTI  -> List(InstType.I, FuName.Alu, AluOp.Slt  ),
+    SLTIU -> List(InstType.I, FuName.Alu, AluOp.Sltu ),
+    XORI  -> List(InstType.I, FuName.Alu, AluOp.Xor  ),
+    ORI   -> List(InstType.I, FuName.Alu, AluOp.Or   ),
+    ANDI  -> List(InstType.I, FuName.Alu, AluOp.And  ),
+    SLLI  -> List(InstType.I, FuName.Alu, AluOp.Sll  ),
+    SRLI  -> List(InstType.I, FuName.Alu, AluOp.Srl  ),
+    SRAI  -> List(InstType.I, FuName.Alu, AluOp.Sra  ),
+    ADD   -> List(InstType.R, FuName.Alu, AluOp.Add  ),
+    SUB   -> List(InstType.R, FuName.Alu, AluOp.Sub  ),
+    SLL   -> List(InstType.R, FuName.Alu, AluOp.Sll  ),
+    SLT   -> List(InstType.R, FuName.Alu, AluOp.Slt  ),
+    SLTU  -> List(InstType.R, FuName.Alu, AluOp.Sltu ),
+    XOR   -> List(InstType.R, FuName.Alu, AluOp.Xor  ),
+    SRL   -> List(InstType.R, FuName.Alu, AluOp.Srl  ),
+    SRA   -> List(InstType.R, FuName.Alu, AluOp.Sra  ),
+    OR    -> List(InstType.R, FuName.Alu, AluOp.Or   ),
+    AND   -> List(InstType.R, FuName.Alu, AluOp.And  ), // todo: FENCE, ECALL, EBREAK
   )
   // format: on
 
