@@ -2,19 +2,19 @@ package core.exu
 
 import chisel3._
 import chisel3.util.MuxLookup
-import core.{BranchIO, CoreBundle, CoreModule}
-import core.fu.{Alu, Bru}
-import core.idu.{DataPathIO, FuControlIO, FuName, IduIO}
+import core.{CoreBundle, CoreModule}
+import core.fu.{Alu, BranchOut, Bru}
+import core.idu.{DataPathOut, FuControlOut, FuName, IduOut}
 
-class ExuIO extends CoreBundle {
-  val br = Flipped(new BranchIO)
-  val data = new DataPathIO
+class ExuOut extends CoreBundle {
+  val br = new BranchOut
+  val data = new DataPathOut
 }
 
 class Exu extends CoreModule {
   val io = IO(new Bundle() {
-    val in = Flipped(new IduIO)
-    val out = new ExuIO
+    val in = Flipped(new IduOut)
+    val out = new ExuOut
   })
 
   val rs1 = io.in.data.rs1

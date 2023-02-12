@@ -2,8 +2,13 @@ package core.fu
 
 import chisel3._
 import chisel3.util.MuxLookup
-import core.{BranchIO, CoreBundle}
+import core.CoreBundle
 import core.idu.BruOp
+
+class BranchOut extends Bundle {
+  val taken = Output(Bool())
+  val target = Output(UInt(32.W))
+}
 
 class BruIO extends CoreBundle {
   val rs1 = Input(UInt(XLen.W))
@@ -11,7 +16,7 @@ class BruIO extends CoreBundle {
   val op = Input(UInt(3.W))
   val nextPc = Input(UInt(XLen.W))
   val offset = Input(UInt(XLen.W))
-  val out = Flipped(new BranchIO)
+  val out = new BranchOut
 }
 
 class Bru extends Module {

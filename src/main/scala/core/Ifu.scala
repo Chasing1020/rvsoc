@@ -1,20 +1,17 @@
 package core
 
 import chisel3._
-import core.idu.ControlIO
+import core.fu.BranchOut
+import core.idu.ControlOut
 import memory._
 
-class BranchIO extends Bundle {
-  val taken = Input(Bool())
-  val target = Input(UInt(32.W))
-}
 
 class Ifu extends CoreModule {
   val io = IO(new Bundle() {
     val mem = new MemIO // todo: convert to AXI4
-    val br = new BranchIO
+    val br = Flipped(new BranchOut)
 
-    val out = Flipped(new ControlIO)
+    val out = new ControlOut
   })
 
   val pc = RegInit(ResetVector.U(XLen.W))

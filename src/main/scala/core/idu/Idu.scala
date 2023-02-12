@@ -4,33 +4,34 @@ import chisel3._
 import chisel3.util.{BitPat, ListLookup, MuxLookup}
 import core._
 
-class ControlIO extends CoreBundle {
-  val inst = Input(UInt(VAddrBits.W))
-  val pc = Input(UInt(VAddrBits.W))
+class ControlOut extends CoreBundle {
+  val inst = Output(UInt(VAddrBits.W))
+  val pc = Output(UInt(VAddrBits.W))
 }
 
-class DataPathIO extends CoreBundle {
+class DataPathOut extends CoreBundle {
   val rs1 = Output(UInt(XLen.W))
   val rs2 = Output(UInt(XLen.W))
+  val offset = Output(UInt(XLen.W)) // InstType.S and InstType.B only
   val dest = Output(UInt(XLen.W))
 }
 
-class FuControlIO extends Bundle {
+class FuControlOut extends Bundle {
   val name = Output(UInt(4.W))
   val op = Output(UInt(4.W))
 }
 
-class IduIO extends CoreBundle {
+class IduOut extends CoreBundle {
   val pc = Output(UInt(32.W))
-  val data = new DataPathIO
-  val fu = new FuControlIO
+  val data = new DataPathOut
+  val fu = new FuControlOut
 }
 
 class Idu extends CoreModule {
   val io = IO(new Bundle {
-    val in = new ControlIO
+    val in = Flipped(new ControlOut)
     val rg = Flipped(new RegFileIO)
-    val out = new IduIO
+    val out = new IduOut
   })
 
   val instType :: fuName :: opType :: Nil = Decoder(io.in.inst)
@@ -57,6 +58,7 @@ class Idu extends CoreModule {
     )
   )
 
+  io.out.data.offset := Mux(instType === InstType.B || instType === InstType.S, imm, 0.U)
   io.out.data.rs1 := rs1
   io.out.data.rs2 := rs2
   io.out.fu.name := fuName

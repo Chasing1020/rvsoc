@@ -59,6 +59,12 @@ object Decoder {
     AUIPC -> List(InstType.U, FuName.Alu, AluOp.Add  ),
     JAL   -> List(InstType.J, FuName.Bru, BruOp.Jal  ),
     JALR  -> List(InstType.I, FuName.Bru, BruOp.Jalr ),
+    BEQ   -> List(InstType.B, FuName.Bru, BruOp.Beq  ),
+    BNE   -> List(InstType.B, FuName.Bru, BruOp.Bne  ),
+    BLT   -> List(InstType.B, FuName.Bru, BruOp.Blt  ),
+    BGE   -> List(InstType.B, FuName.Bru, BruOp.Bge  ),
+    BLTU  -> List(InstType.B, FuName.Bru, BruOp.Bltu ),
+    BGEU  -> List(InstType.B, FuName.Bru, BruOp.Bgeu ),
     ADDI  -> List(InstType.I, FuName.Alu, AluOp.Add  ),
   )
   // format: on
