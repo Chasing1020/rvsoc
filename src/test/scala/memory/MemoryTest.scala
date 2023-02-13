@@ -1,9 +1,11 @@
 package memory
 
 import chisel3._
+import chisel3.util.Counter
 import chisel3.util.experimental.loadMemoryFromFileInline
 import chiseltest._
 import org.scalatest.flatspec.AnyFlatSpec
+import utils.{Debug, DebugTester}
 
 class InitMemInline(memoryFile: String = "") extends Module {
   val width: Int = 32
@@ -23,38 +25,16 @@ class InitMemInline(memoryFile: String = "") extends Module {
   io.dataOut := DontCare
   when(io.enable) {
     val rdwrPort = mem(io.addr)
-    when (io.write) { rdwrPort := io.dataIn }
-      .otherwise    { io.dataOut := rdwrPort }
+    when(io.write) { rdwrPort := io.dataIn }.otherwise { io.dataOut := rdwrPort }
   }
+  stop()
+  Debug(cf"${mem(0.U)}%x")
 }
 
 class MemoryTest extends AnyFlatSpec with ChiselScalatestTester {
   behavior.of("Memory")
 
-  it should "success" in {
-    test(new Memory){dut =>
-//      dut.io.addr.poke("x29a".U)
-//      dut.io.enable.poke(true.B)
-//      dut.io.dataOut.expect(1.U)
-//      dut.io.writeEnable.poke(true.B)
-//      dut.io.writeAddr.poke(1.U)
-//      dut.io.dataIn.poke(6.U)
-//      dut.clock.step(1)
-//
-//      dut.io.writeEnable.poke(true.B)
-//      dut.io.writeAddr.poke(2.U)
-//      dut.io.dataIn.poke(7.U)
-//      dut.clock.step(1)
-//
-//      dut.io.readEnable.poke(true.B)
-//      dut.io.readAddr.poke(1.U)
-//      dut.clock.step(1)
-//      dut.io.dataOut.expect(6.U)
-//
-//      dut.io.readEnable.poke(true.B)
-//      dut.io.readAddr.poke(2.U)
-//      dut.clock.step(1)
-//      dut.io.dataOut.expect(7.U)
-    }
+  it should "pass" in {
+    test(new InitMemInline("./tests/hex/addi.hex")).runUntilStop()
   }
 }

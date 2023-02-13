@@ -5,6 +5,7 @@ import chisel3.util._
 import chisel3.util.experimental.loadMemoryFromFileInline
 import core._
 import firrtl.annotations.MemoryLoadFileType
+import utils.Debug
 
 // Read & Write address channel
 class AXI4LiteBundleA extends AXI4Bundle {

@@ -78,6 +78,15 @@ object Decoder {
     SRA   -> List(InstType.R, FuName.Alu, AluOp.Sra  ),
     OR    -> List(InstType.R, FuName.Alu, AluOp.Or   ),
     AND   -> List(InstType.R, FuName.Alu, AluOp.And  ), // todo: FENCE, ECALL, EBREAK
+    ADDIW -> List(InstType.I, FuName.Alu, AluOp.Add  ),
+    SLLIW -> List(InstType.I, FuName.Alu, AluOp.Sll  ),
+    SRLIW -> List(InstType.I, FuName.Alu, AluOp.Srl  ),
+    SRAIW -> List(InstType.I, FuName.Alu, AluOp.Sra  ),
+    SLLW  -> List(InstType.R, FuName.Alu, AluOp.Sll  ),
+    SRLW  -> List(InstType.R, FuName.Alu, AluOp.Srl  ),
+    SRAW  -> List(InstType.R, FuName.Alu, AluOp.Sra  ),
+    ADDW  -> List(InstType.R, FuName.Alu, AluOp.Add  ),
+    SUBW  -> List(InstType.R, FuName.Alu, AluOp.Sub  ),
   )
   // format: on
 

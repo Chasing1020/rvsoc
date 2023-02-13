@@ -6,7 +6,7 @@ import core._
 // AMBA AXI4-Lite bus protocol
 // link: https://developer.arm.com/documentation/ihi0022/e/AMBA-AXI4-Lite-Interface-Specification
 trait AXI4Spec extends CoreConfig {
-  final val DataBits: Int = XLen
+  final val DataBits: Int = 32
 
   final val BeatBytes: Int = 4 // An individual data transfer within an AXI burst
 
@@ -18,10 +18,11 @@ trait AXI4Spec extends CoreConfig {
 
   // RRESP and BRESP encoding
   final val RespBits:   Int = 2
-  final val RespOkay:   UInt = "0b00".U(RespBits.W)
-  final val RespExOkay: UInt = "0b01".U(RespBits.W)
-  final val RespSlvRrr: UInt = "0b10".U(RespBits.W)
-  final val RespDecErr: UInt = "0b11".U(RespBits.W)
+  final val RespOkay:   UInt = "b00".U(RespBits.W)
+  final val RespExOkay: UInt = "b01".U(RespBits.W)
+  final val RespSlvRrr: UInt = "b10".U(RespBits.W)
+  final val RespDecErr: UInt = "b11".U(RespBits.W)
 }
 
 abstract class AXI4Bundle extends Bundle with AXI4Spec
+abstract class AXI4Module extends Module with AXI4Spec
