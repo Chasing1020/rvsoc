@@ -5,7 +5,7 @@ import utils._
 
 object Main extends App {
   def defaultDir = "./build"
-  Logger.level = Level.Warn
+  Logger.level = Level.Never
 
   new ChiselStage().execute(
     args,

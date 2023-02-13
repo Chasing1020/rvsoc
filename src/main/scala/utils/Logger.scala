@@ -14,6 +14,7 @@ object Level extends Enumeration {
   final val Error = Value(4, Console.MAGENTA + "ERROR" + Console.RESET)
   final val Panic = Value(5, Console.RED     + "PANIC" + Console.RESET)
   // format: on
+  final val Never = Value(6)
 }
 
 object Clock {
@@ -32,6 +33,10 @@ object Logger {
 
 // Logger will print the debug message every cycle.
 abstract class Logger(l: Level) {
+  def apply(cond: => Bool, p:      => Printable): Unit = when(cond) { apply(p) }
+  def apply(cond: => Bool, fmt:    => String, data: Bits*): Unit = when(cond) { apply(Printable.pack(fmt, data: _*)) }
+
+  def apply(fmt:  => String, data: Bits*): Unit = apply(Printable.pack(fmt, data: _*))
   def apply(p: => Printable): Unit = {
     if (l < level) return
     if (useLevelText) printf(l.toString)
@@ -39,7 +44,6 @@ abstract class Logger(l: Level) {
     printf(p)
     if (p.toString.last != '\n') printf("\n")
   }
-  def apply(fmt: => String, data: Bits*): Unit = apply(Printable.pack(fmt, data: _*))
 }
 
 object Trace extends Logger(Level.Trace)

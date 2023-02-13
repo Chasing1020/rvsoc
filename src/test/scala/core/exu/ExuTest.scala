@@ -7,6 +7,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import Chisel.testers.BasicTester
 import chisel3.util.Counter
 import core.RegFile
+import utils._
 
 class ExuTester extends BasicTester {
   val idu = Module(new Idu)
@@ -16,9 +17,12 @@ class ExuTester extends BasicTester {
   rf.io <> idu.io.rg
   exu.io.in <> idu.io.out
 
+
   val insts = VecInit(
     Seq(
-//      "x00a28293".U, // addi x5, x5, 10
+      "x00002037".U, // lui x0, 8192
+      "x00002297".U, // auipc x5, 8192; rd = PC + (imm << 12)
+      "x00a28293".U, // addi x5, x5, 10
       "x00628863".U // beq x5, x6, 16
     )
   )
@@ -27,14 +31,12 @@ class ExuTester extends BasicTester {
   idu.io.in.inst := insts(i)
 
   when(done) { stop() }
-  printf(
-    cf"Case: $i, Inst: ${insts(i)}\n" +
-      cf"\t${idu.io.out.data}\n" +
-      cf"\t${idu.io.out.rfw}\n" +
-      cf"\t${idu.io.out.fc}\n" +
-      cf"\t${exu.io.out.rfw}\n" +
-      cf"\t${exu.io.out.br}\n"
-  )
+
+  Info(cf"Case: $i, Inst: ${insts(i)}")
+  Debug(cf"${idu.io.out.data}")
+  Debug(cf"${idu.io.out.fc}")
+  Debug(cf"${exu.io.out.rfw}")
+  Debug(cf"${exu.io.out.br}")
 //  printf("Inst: 0x%x, rs1: 0x%x, rs2: 0x%x\n", dut.io.in.inst, dut.io.out.data.rs1, dut.io.out.data.rs2)
 }
 

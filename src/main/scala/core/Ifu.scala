@@ -20,8 +20,7 @@ class Ifu extends CoreModule {
   pc := Mux(io.br.taken, io.br.target, pc + 4.U)
   io.mem := DontCare
 
-//  io.out.inst := io.mem.dataOut
-  io.out.inst := "b00000000000100000000010110010011".U // addi x11, x0, 1
+  io.out.inst := io.mem.dataOut
   io.out.pc := pc
 
   Trace(cf"$io")
