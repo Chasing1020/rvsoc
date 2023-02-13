@@ -1,5 +1,5 @@
 import chisel3.stage._
-import core.fu.Alu
+import core.exu.fu.Alu
 import firrtl.options.TargetDirAnnotation
 import utils._
 

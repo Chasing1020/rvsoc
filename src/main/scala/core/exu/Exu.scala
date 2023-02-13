@@ -3,7 +3,7 @@ package core.exu
 import chisel3._
 import chisel3.util.MuxLookup
 import core.{CoreBundle, CoreModule, RegFileWriteOut}
-import core.fu.{Alu, BranchOut, Bru}
+import core.exu.fu.{Alu, BranchOut, Bru}
 import core.idu.{FuName, IduOut}
 import utils._
 
@@ -38,5 +38,7 @@ class Exu extends CoreModule {
   )
   io.out.br.taken := Mux(io.in.fc.name === FuName.Bru, bruOut.taken, false.B)
   io.out.br.target := bruOut.target
-  Trace(cf"$io")
+
+  Trace(cf"[Exu.in]: ${io.in}")
+  Trace(cf"[Exu.out]: ${io.out}")
 }

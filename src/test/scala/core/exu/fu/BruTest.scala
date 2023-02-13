@@ -1,4 +1,4 @@
-package core.fu
+package core.exu.fu
 
 import chisel3._
 import chiseltest._
@@ -7,6 +7,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import Chisel.testers.BasicTester
 import chisel3.util.Counter
 import core.RegFile
+import core.exu.fu.Bru
 import utils._
 
 class BruTester extends BasicTester {

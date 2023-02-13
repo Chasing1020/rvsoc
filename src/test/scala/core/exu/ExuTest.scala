@@ -4,12 +4,11 @@ import chisel3._
 import chiseltest._
 import core.idu.Idu
 import org.scalatest.flatspec.AnyFlatSpec
-import Chisel.testers.BasicTester
 import chisel3.util.Counter
 import core.RegFile
 import utils._
 
-class ExuTester extends BasicTester {
+class ExuTester extends TraceTester {
   val idu = Module(new Idu)
   val exu = Module(new Exu)
   val rf = Module(new RegFile)
@@ -17,13 +16,15 @@ class ExuTester extends BasicTester {
   rf.io <> idu.io.rg
   exu.io.in <> idu.io.out
 
-
   val insts = VecInit(
     Seq(
-      "x00002037".U, // lui x0, 8192
-      "x00002297".U, // auipc x5, 8192; rd = PC + (imm << 12)
-      "x00a28293".U, // addi x5, x5, 10
-      "x00628863".U // beq x5, x6, 16
+      "x00a28313".U, // addi x6, x5, 10
+      "x00a30393".U, // addi x7, x6, 10
+//      "x00002037".U, // lui x0, 8192
+//      "x00002297".U, // auipc x5, 8192; rd = PC + (imm << 12)
+//      "x00a28293".U, // addi x5, x5, 10
+//      "x06431293".U, // slli x5, x6, 100
+//      "x00628863".U // beq x5, x6, 16
     )
   )
   val (i, done) = Counter(true.B, insts.size)

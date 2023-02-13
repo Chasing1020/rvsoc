@@ -1,16 +1,12 @@
-package core.utils
+package utils
 
 import chisel3._
 import chiseltest._
 import org.scalatest.flatspec.AnyFlatSpec
-import utils._
-import Chisel.testers.BasicTester
 import chisel3.util.Counter
 
-class LoggerTester extends BasicTester {
+class LoggerTester extends TraceTester {
   val (i, done) = Counter(true.B, 5)
-
-  Logger.level = Level.Warn
 
   Trace("trace text")
   Debug("debug text")

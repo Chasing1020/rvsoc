@@ -1,4 +1,4 @@
-package core.fu
+package core.exu.fu
 
 import chisel3._
 import chisel3.util._
@@ -46,7 +46,7 @@ class Alu(width: Int) extends Module {
     AluOp.CopyB -> io.b
   )
   io.out := MuxLookup(key = io.op, default = 0.U, mapping = opList)
-  Trace(cf"$io")
+  Trace(cf"[Alu]: $io")
 }
 
 object Alu {

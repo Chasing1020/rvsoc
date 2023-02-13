@@ -33,16 +33,18 @@ object Logger {
 
 // Logger will print the debug message every cycle.
 abstract class Logger(l: Level) {
-  def apply(cond: => Bool, p:      => Printable): Unit = when(cond) { apply(p) }
-  def apply(cond: => Bool, fmt:    => String, data: Bits*): Unit = when(cond) { apply(Printable.pack(fmt, data: _*)) }
+  def apply(cond: => Bool, p:   => Printable): Unit = when(cond) { apply(p) }
+  def apply(cond: => Bool, fmt: => String, data: Bits*): Unit = when(cond) { apply(Printable.pack(fmt, data: _*)) }
 
-  def apply(fmt:  => String, data: Bits*): Unit = apply(Printable.pack(fmt, data: _*))
+  def apply(fmt: => String, data: Bits*): Unit = apply(Printable.pack(fmt, data: _*))
   def apply(p: => Printable): Unit = {
     if (l < level) return
-    if (useLevelText) printf(l.toString)
-    if (useClock) printf("[%d] ", Clock())
-    printf(p)
-    if (p.toString.last != '\n') printf("\n")
+    var str = Printable.pack("")
+    if (useLevelText) str += l.toString
+    if (useClock) str += cf"[${Clock()}] "
+    str += p
+    if (p.toString.last != '\n') str += cf"\n"
+    printf(cf"$str")
   }
 }
 

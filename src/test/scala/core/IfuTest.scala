@@ -2,6 +2,7 @@ package core
 
 import chisel3._
 import chiseltest._
+import core.Ifu.Ifu
 import org.scalatest.flatspec.AnyFlatSpec
 
 

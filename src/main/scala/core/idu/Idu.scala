@@ -27,12 +27,14 @@ class IduOut extends CoreBundle {
   val rfw = new RegFileWriteOut
 }
 
+class IduIO extends Bundle {
+  val in = Flipped(new InstPcOut)
+  val rg = Flipped(new RegFileIO)
+  val out = new IduOut
+}
+
 class Idu extends CoreModule {
-  val io = IO(new Bundle {
-    val in = Flipped(new InstPcOut)
-    val rg = Flipped(new RegFileIO)
-    val out = new IduOut
-  })
+  val io = IO(new IduIO)
 
   val instType :: fuName :: opType :: Nil = Decoder(io.in.inst)
   val imm = ImmGen(io.in.inst, instType)
@@ -48,7 +50,7 @@ class Idu extends CoreModule {
       InstType.I -> List(io.rg.r1.data, imm), // rd = rs1 op imm; rd = PC+4, PC = rs1 + imm
       InstType.S -> List(io.rg.r1.data, io.rg.r2.data), // M[rs1+imm][0:x] = rs2[0:x]
       InstType.B -> List(io.rg.r1.data, io.rg.r2.data), // if(rs1 op rs2) PC += imm
-      InstType.U -> List(io.in.pc, imm), // rd = PC + (imm op)
+      InstType.U -> List(io.in.pc, imm << 12.U), // rd = PC + (imm << 12)
       InstType.J -> List(io.in.pc, imm), // e.g. rd = PC+4; PC += imm
       InstType.R -> List(io.rg.r1.data, io.rg.r2.data) // rd = rs1 - rs2
     )
@@ -67,5 +69,6 @@ class Idu extends CoreModule {
   io.rg.w := DontCare
   io.out.pc := io.in.pc
 
-  Trace(cf"$io")
+  Trace(cf"[Idu.in]: ${io.in}")
+  Trace(cf"[Idu.out]: ${io.out}")
 }

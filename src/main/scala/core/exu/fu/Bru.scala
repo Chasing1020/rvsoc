@@ -1,4 +1,4 @@
-package core.fu
+package core.exu.fu
 
 import chisel3._
 import chisel3.util.MuxLookup
@@ -40,7 +40,8 @@ class Bru extends Module {
 
   // JALR target address will set the least-significant bit of the result to zero.
   io.out.target := Mux(io.op === BruOp.Jalr, (io.rs1 + io.offset) >> 1.U << 1.U, io.nextPc + io.offset)
-  Trace(cf"$io")
+
+  Trace(cf"[Bru]: $io")
 }
 
 object Bru {
