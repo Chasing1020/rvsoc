@@ -346,3 +346,6 @@ hs_err_pid*
 
 # target build
 build/
+
+# objdump output
+*.dmp
