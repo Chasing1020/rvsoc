@@ -1,11 +1,13 @@
 package core.wbu
 
 import chisel3._
-import chisel3.util.{Counter, DecoupledIO}
+import chisel3.stage.ChiselStage
+import chisel3.util.Counter
 import chiseltest._
 import core.idu.Idu
 import core.RegFile
 import core.exu.Exu
+import firrtl.options.TargetDirAnnotation
 import org.scalatest.flatspec.AnyFlatSpec
 import utils._
 
@@ -49,5 +51,9 @@ class WbuTester extends TraceTester {
 class WbuTest extends AnyFlatSpec with ChiselScalatestTester {
   behavior.of("Wbu")
 
-  it should "success" in test(new WbuTester).runUntilStop()
+  it should "success" in {
+    test(new WbuTester).withAnnotations(Seq(WriteVcdAnnotation)).runUntilStop()
+
+    (new ChiselStage).emitVerilog(new Wbu, annotations = Seq(TargetDirAnnotation("test_run_dir/Wbu_should_success/")))
+  }
 }

@@ -1,11 +1,13 @@
 package core.exu
 
 import chisel3._
+import chisel3.stage.ChiselStage
 import chiseltest._
 import core.idu.Idu
 import org.scalatest.flatspec.AnyFlatSpec
 import chisel3.util.Counter
 import core.RegFile
+import firrtl.options.TargetDirAnnotation
 import utils._
 
 class ExuTester extends TraceTester {
@@ -19,7 +21,7 @@ class ExuTester extends TraceTester {
   val insts = VecInit(
     Seq(
       "x00a28313".U, // addi x6, x5, 10
-      "x00a30393".U, // addi x7, x6, 10
+      "x00a30393".U // addi x7, x6, 10
 //      "x00002037".U, // lui x0, 8192
 //      "x00002297".U, // auipc x5, 8192; rd = PC + (imm << 12)
 //      "x00a28293".U, // addi x5, x5, 10
@@ -44,5 +46,9 @@ class ExuTester extends TraceTester {
 class BruTest extends AnyFlatSpec with ChiselScalatestTester {
   behavior.of("Exu")
 
-  it should "success" in test(new ExuTester).runUntilStop()
+  it should "success" in {
+    test(new ExuTester).withAnnotations(Seq(WriteVcdAnnotation)).runUntilStop()
+
+    (new ChiselStage).emitVerilog(new Exu, annotations = Seq(TargetDirAnnotation("test_run_dir/Exu_should_success/")))
+  }
 }

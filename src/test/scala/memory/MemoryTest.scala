@@ -1,11 +1,10 @@
 package memory
 
 import chisel3._
-import chisel3.util.Counter
 import chisel3.util.experimental.loadMemoryFromFileInline
 import chiseltest._
 import org.scalatest.flatspec.AnyFlatSpec
-import utils.{Debug, DebugTester}
+import utils._
 
 class InitMemInline(memoryFile: String = "") extends Module {
   val width: Int = 32

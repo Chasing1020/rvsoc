@@ -2,13 +2,16 @@ package core.exu.fu
 
 import chisel3._
 import chiseltest._
-import core.idu.{BruOp, Idu}
+import core.idu.Idu
 import org.scalatest.flatspec.AnyFlatSpec
 import Chisel.testers.BasicTester
+import chisel3.stage.ChiselStage
 import chisel3.util.Counter
 import core.RegFile
-import core.exu.fu.Bru
+import firrtl.options.TargetDirAnnotation
 import utils._
+
+import scala.util.Random
 
 class BruTester extends BasicTester {
   val idu = Module(new Idu)
@@ -44,5 +47,29 @@ class BruTester extends BasicTester {
 class BruTest extends AnyFlatSpec with ChiselScalatestTester {
   behavior.of("Bru")
 
-  it should "success" in test(new BruTester).runUntilStop()
+  it should "success" in {
+    test(new BruTester).withAnnotations(Seq(WriteVcdAnnotation)).runUntilStop()
+
+    test(new Bru).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
+      val input: List[Long] =
+        List(0L, 1L, Random.nextInt.abs, Random.nextInt.abs, Int.MaxValue.toLong, Int.MaxValue.toLong << 1L)
+      for {
+        op <- 1 to 7
+        rs1 <- input
+        rs2 <- input
+        pc <- input
+        offset <- input
+      } {
+        dut.io.rs1.poke(rs1.U)
+        dut.io.rs2.poke(rs2.U)
+        dut.io.op.poke(op.U)
+        dut.io.nextPc.poke(pc.U)
+        dut.io.offset.poke(offset.U)
+
+        dut.clock.step(1) // for vcd
+      }
+    }
+
+    (new ChiselStage).emitVerilog(new Bru, annotations = Seq(TargetDirAnnotation("test_run_dir/Bru_should_success/")))
+  }
 }

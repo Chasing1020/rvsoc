@@ -5,7 +5,9 @@ import chiseltest._
 import chisel3.util._
 import org.scalatest.flatspec.AnyFlatSpec
 import Chisel.testers.BasicTester
+import chisel3.stage.ChiselStage
 import core.RegFile
+import firrtl.options.TargetDirAnnotation
 import utils._
 
 class IduTester extends BasicTester {
@@ -56,7 +58,11 @@ class LookUpTest extends BasicTester {
 class IduTest extends AnyFlatSpec with ChiselScalatestTester {
   behavior.of("Idu")
 
-  it should "success" in test(new IduTester).runUntilStop()
+  it should "success" in {
+    test(new IduTester).withAnnotations(Seq(WriteVcdAnnotation)).runUntilStop()
 
-  it should "pass" in test(new LookUpTest).runUntilStop()
+    (new ChiselStage).emitVerilog(new Idu, annotations = Seq(TargetDirAnnotation("test_run_dir/Idu_should_success/")))
+  }
+
+  "LookUpTest" should "pass" in test(new LookUpTest).runUntilStop()
 }

@@ -6,9 +6,9 @@ import chiseltest._
 import chiseltest.simulator.WriteVcdAnnotation
 import firrtl.options.TargetDirAnnotation
 import org.scalatest.flatspec.AnyFlatSpec
-import treadle.EnableCoverageAnnotation
 
 import scala.language.implicitConversions
+import scala.util.Random
 
 object ScalaAlu {
   def asUnsigned(a: Long): Long = (a + 0x1_0000_0000L) % 0x1_0000_0000L
@@ -43,7 +43,8 @@ class AluTest extends AnyFlatSpec with ChiselScalatestTester {
 
   it should "success" in {
     test(new Alu(32)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
-      val input: List[Long] = List(0L, 1L, 2L, Int.MaxValue.toLong, Int.MaxValue.toLong << 1L)
+      val input: List[Long] =
+        List(0L, 1L, Random.nextInt.abs, Random.nextInt.abs, Int.MaxValue.toLong, Int.MaxValue.toLong << 1L)
       for {
         op <- 0 to 9
         a <- input

@@ -1,9 +1,10 @@
 package core
 
 import chisel3._
+import chisel3.stage.ChiselStage
 import chiseltest._
+import firrtl.options.TargetDirAnnotation
 import org.scalatest.flatspec.AnyFlatSpec
-
 
 class RegFileTest extends AnyFlatSpec with ChiselScalatestTester {
   behavior.of("RegFile")
@@ -32,5 +33,8 @@ class RegFileTest extends AnyFlatSpec with ChiselScalatestTester {
       dut.io.r1.addr.poke(6.U)
       dut.io.r1.data.expect(7.U)
     }
+
+    (new ChiselStage)
+      .emitVerilog(new RegFile, annotations = Seq(TargetDirAnnotation("test_run_dir/RegFile_should_success/")))
   }
 }

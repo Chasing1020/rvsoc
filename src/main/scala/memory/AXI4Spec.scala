@@ -24,5 +24,6 @@ trait AXI4Spec extends CoreConfig {
   final val RespDecErr: UInt = "b11".U(RespBits.W)
 }
 
-abstract class AXI4Bundle extends Bundle with AXI4Spec
-abstract class AXI4Module extends Module with AXI4Spec
+// fixme: split Wire and Bundles
+//abstract class AXI4Bundle extends Bundle with AXI4Spec
+//abstract class AXI4Module extends Module with AXI4Spec
