@@ -1,9 +1,12 @@
 package core.exu.fu
 
 import chisel3._
+import chisel3.stage.ChiselStage
 import chiseltest._
-import core.exu.fu.{Alu, AluOp}
+import chiseltest.simulator.WriteVcdAnnotation
+import firrtl.options.TargetDirAnnotation
 import org.scalatest.flatspec.AnyFlatSpec
+import treadle.EnableCoverageAnnotation
 
 import scala.language.implicitConversions
 
@@ -34,10 +37,12 @@ object ScalaAlu {
 }
 
 class AluTest extends AnyFlatSpec with ChiselScalatestTester {
+  val targetDir = "test_run_dir/Alu32_should_success/"
+
   behavior.of("Alu32")
 
   it should "success" in {
-    test(new Alu(32)) { dut =>
+    test(new Alu(32)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
       val input: List[Long] = List(0L, 1L, 2L, Int.MaxValue.toLong, Int.MaxValue.toLong << 1L)
       for {
         op <- 0 to 9
@@ -49,7 +54,19 @@ class AluTest extends AnyFlatSpec with ChiselScalatestTester {
         dut.io.op.poke(op.U)
 //        println(s"a: $a, b: $b, op: $op, expected: ${ScalaAlu(op, a, b)}")
         dut.io.out.expect(ScalaAlu(BigInt(op), a, b).U, s"a: $a, b: $b, op: $op")
+
+        dut.clock.step(1) // for vcd
       }
     }
+
+    (new ChiselStage).emitVerilog(new Alu(32), annotations = Seq(TargetDirAnnotation(targetDir)))
+//    os.proc(
+//      "yosys",
+//      "-p",
+//      "read_verilog -sv " +
+//        targetDir + "Alu.v" +
+//        " ; proc ; write_smt2 " +
+//        targetDir + "Alu.smt2"
+//    ).call(stdout = os.Inherit, stderr = os.Inherit)
   }
 }
