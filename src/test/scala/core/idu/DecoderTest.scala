@@ -27,7 +27,9 @@ class DecoderTest extends AnyFlatSpec with ChiselScalatestTester {
       dut.clock.step()
     }
 
-    (new ChiselStage)
-      .emitVerilog(new Decoder, annotations = Seq(TargetDirAnnotation("test_run_dir/Decoder_should_success/")))
+    (new ChiselStage).emitVerilog(
+      gen = new Decoder,
+      annotations = Seq(TargetDirAnnotation("test_run_dir/Decoder_should_success/"))
+    )
   }
 }

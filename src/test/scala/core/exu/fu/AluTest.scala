@@ -60,14 +60,9 @@ class AluTest extends AnyFlatSpec with ChiselScalatestTester {
       }
     }
 
-    (new ChiselStage).emitVerilog(new Alu(32), annotations = Seq(TargetDirAnnotation(targetDir)))
-//    os.proc(
-//      "yosys",
-//      "-p",
-//      "read_verilog -sv " +
-//        targetDir + "Alu.v" +
-//        " ; proc ; write_smt2 " +
-//        targetDir + "Alu.smt2"
-//    ).call(stdout = os.Inherit, stderr = os.Inherit)
+    (new ChiselStage).emitVerilog(
+      gen = new Alu(32),
+      annotations = Seq(TargetDirAnnotation(targetDir))
+    )
   }
 }

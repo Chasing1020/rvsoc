@@ -32,7 +32,9 @@ class ImmGenTest extends AnyFlatSpec with ChiselScalatestTester {
       dut.io.imm.expect(4.U)
     }
 
-    (new ChiselStage)
-      .emitVerilog(new ImmGen, annotations = Seq(TargetDirAnnotation("test_run_dir/ImmGen_should_success/")))
+    (new ChiselStage).emitVerilog(
+      gen = new ImmGen,
+      annotations = Seq(TargetDirAnnotation("test_run_dir/ImmGen_should_success/"))
+    )
   }
 }

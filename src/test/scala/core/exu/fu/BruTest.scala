@@ -70,6 +70,9 @@ class BruTest extends AnyFlatSpec with ChiselScalatestTester {
       }
     }
 
-    (new ChiselStage).emitVerilog(new Bru, annotations = Seq(TargetDirAnnotation("test_run_dir/Bru_should_success/")))
+    (new ChiselStage).emitVerilog(
+      gen = new Bru,
+      annotations = Seq(TargetDirAnnotation("test_run_dir/Bru_should_success/"))
+    )
   }
 }

@@ -61,7 +61,10 @@ class IduTest extends AnyFlatSpec with ChiselScalatestTester {
   it should "success" in {
     test(new IduTester).withAnnotations(Seq(WriteVcdAnnotation)).runUntilStop()
 
-    (new ChiselStage).emitVerilog(new Idu, annotations = Seq(TargetDirAnnotation("test_run_dir/Idu_should_success/")))
+    (new ChiselStage).emitVerilog(
+      gen = new Idu,
+      annotations = Seq(TargetDirAnnotation("test_run_dir/Idu_should_success/"))
+    )
   }
 
   "LookUpTest" should "pass" in test(new LookUpTest).runUntilStop()

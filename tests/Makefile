@@ -6,11 +6,17 @@ CC      := $(CROSS_COMPILE)gcc
 OBJCOPY := $(CROSS_COMPILE)objcopy
 OBJDUMP := $(CROSS_COMPILE)objdump
 
+ASM_FILES  := $(shell find . -name '*.s')
 ELF_FILES  := $(shell find . -name '*.out')
 BIN_FILES  := $(shell find . -name '*.bin')
 HEX_FILES  := $(shell find . -name '*.hex')
 DUMP_FILES := $(shell find . -name '*.dmp')
 
+default: all
+all: $(ASM_FILES)
+	@for file in $^ ; do \
+  		make `echo $${file} | sed "s/$.s/$.hex/"`; \
+	done
 
 %.out: %.s
 	$(CC) $(CFLAGS) $^ -o $@
@@ -25,4 +31,4 @@ DUMP_FILES := $(shell find . -name '*.dmp')
 clean:
 	rm $(BIN_FILES) $(ELF_FILES) $(HEX_FILES) $(DUMP_FILES)
 
-.PHONY: clean
+.PHONY: default all clean

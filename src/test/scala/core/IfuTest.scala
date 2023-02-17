@@ -8,6 +8,7 @@ import firrtl.options.TargetDirAnnotation
 import org.scalatest.flatspec.AnyFlatSpec
 
 class IfuTest extends AnyFlatSpec with ChiselScalatestTester {
+
   behavior.of("Ifu")
 
   it should "success" in {
@@ -17,6 +18,9 @@ class IfuTest extends AnyFlatSpec with ChiselScalatestTester {
 
     }
 
-    (new ChiselStage).emitVerilog(new Ifu, annotations = Seq(TargetDirAnnotation("test_run_dir/Ifu_should_success/")))
+    (new ChiselStage).emitVerilog(
+      gen = new RegFile,
+      annotations = Seq(TargetDirAnnotation("test_run_dir/Ifu_should_success/"))
+    )
   }
 }

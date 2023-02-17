@@ -34,7 +34,9 @@ class RegFileTest extends AnyFlatSpec with ChiselScalatestTester {
       dut.io.r1.data.expect(7.U)
     }
 
-    (new ChiselStage)
-      .emitVerilog(new RegFile, annotations = Seq(TargetDirAnnotation("test_run_dir/RegFile_should_success/")))
+    (new ChiselStage).emitVerilog(
+      gen = new RegFile,
+      annotations = Seq(TargetDirAnnotation("test_run_dir/AXI4Memory_should_success/"))
+    )
   }
 }

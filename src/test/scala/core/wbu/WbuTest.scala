@@ -54,6 +54,9 @@ class WbuTest extends AnyFlatSpec with ChiselScalatestTester {
   it should "success" in {
     test(new WbuTester).withAnnotations(Seq(WriteVcdAnnotation)).runUntilStop()
 
-    (new ChiselStage).emitVerilog(new Wbu, annotations = Seq(TargetDirAnnotation("test_run_dir/Wbu_should_success/")))
+    (new ChiselStage).emitVerilog(
+      gen = new Wbu,
+      annotations = Seq(TargetDirAnnotation("test_run_dir/Wbu_should_success/"))
+    )
   }
 }

@@ -49,6 +49,9 @@ class BruTest extends AnyFlatSpec with ChiselScalatestTester {
   it should "success" in {
     test(new ExuTester).withAnnotations(Seq(WriteVcdAnnotation)).runUntilStop()
 
-    (new ChiselStage).emitVerilog(new Exu, annotations = Seq(TargetDirAnnotation("test_run_dir/Exu_should_success/")))
+    (new ChiselStage).emitVerilog(
+      gen = new Exu,
+      annotations = Seq(TargetDirAnnotation("test_run_dir/Exu_should_success/"))
+    )
   }
 }

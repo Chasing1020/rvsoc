@@ -38,9 +38,26 @@ class AXI4Lite extends Bundle {
   val r = Flipped(Decoupled(new AXI4LiteBundleR))
 }
 
-class AXI4Memory extends CoreModule with AXI4Spec {
-  val io = IO(new AXI4Lite)
+class AXI4Memory(filePath: String = "") extends AXI4Module {
+  val io = IO(Flipped(new AXI4Lite))
 
+  io := DontCare
+  val mem = SyncReadMem(1024, UInt((BeatBytes * 8).W))
+  if (filePath.trim().nonEmpty) {
+    loadMemoryFromFileInline(mem, filePath)
+  }
+  // todo: add DecoupledIO fire
+  // fixme: wrong AXI4Memory.ar result
+  val read = mem.read(io.ar.bits.addr, true.B).asUInt
+  io.r.bits.data := EndianReverser(BeatBytes * 8, read).asUInt
+  io.r.bits.resp := RespOkay
+  io.r.valid := true.B
+
+  Debug(cf"[AXI4Memory.aw]: ${io.aw.bits.addr}%x")
+  Debug(cf"[AXI4Memory.w ]: ${io.w.bits.data}%x")
+  Debug(cf"[AXI4Memory.b ]: ${io.b.bits.resp}%x")
+  Debug(cf"[AXI4Memory.ar]: ${io.ar.bits.addr}%x")
+  Debug(cf"[AXI4Memory.r ]: ${io.r.bits.data}%x")
 }
 
 // todo: convert to AMBA AXI and ACE Protocol Specification
