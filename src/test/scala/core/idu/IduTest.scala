@@ -15,7 +15,7 @@ class IduTester extends BasicTester {
 
   val dut = Module(new Idu)
   val rf = Module(new RegFile)
-  rf.io <> dut.io.rg
+  rf.io <> dut.io.rf
 
   val insts = VecInit(
     Seq(

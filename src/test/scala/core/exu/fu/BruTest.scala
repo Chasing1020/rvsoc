@@ -13,10 +13,10 @@ import utils._
 
 import scala.util.Random
 
-class BruTester extends BasicTester {
+class BruTester extends DebugTester {
   val idu = Module(new Idu)
   val rf = Module(new RegFile)
-  rf.io <> idu.io.rg
+  rf.io <> idu.io.rf
 
   val insts = VecInit(
     Seq(
@@ -52,7 +52,7 @@ class BruTest extends AnyFlatSpec with ChiselScalatestTester {
 
     test(new Bru).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
       val input: List[Long] =
-        List(0L, 1L, Random.nextInt.abs, Random.nextInt.abs, Int.MaxValue.toLong, Int.MaxValue.toLong << 1L)
+        List(0L, 1L, Random.nextInt().abs, Int.MaxValue.toLong, Int.MaxValue.toLong << 1L)
       for {
         op <- 1 to 7
         rs1 <- input

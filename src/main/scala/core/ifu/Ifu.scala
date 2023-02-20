@@ -1,4 +1,4 @@
-package core.Ifu
+package core.ifu
 
 import chisel3._
 import core.idu.InstPcOut
@@ -9,7 +9,7 @@ import utils._
 
 class IfuIO extends Bundle {
   val in = Flipped(new BranchOut)
-  val mem = new MemIO // todo: convert to AXI4
+  val mem = new AXI4LiteIO
   val out = new InstPcOut
 }
 
@@ -19,9 +19,13 @@ class Ifu extends CoreModule {
   val pc = RegInit(ResetVector.U(XLen.W))
 
   pc := Mux(io.in.taken, io.in.target, pc + 4.U)
-  io.mem := DontCare
 
-  io.out.inst := io.mem.dataOut
+  io.mem := DontCare
+  io.mem.ar.valid := true.B
+  io.mem.ar.bits.addr := pc
+  io.mem.w.valid := false.B
+
+  io.out.inst := io.mem.r.bits.data
   io.out.pc := pc
 
   Trace(cf"[Ifu.in]: ${io.in}")

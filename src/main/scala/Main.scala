@@ -11,7 +11,7 @@ object Main extends App {
     args,
     Seq(
       ThrowOnFirstErrorAnnotation,
-      ChiselGeneratorAnnotation(() => new Alu(32)),
+      ChiselGeneratorAnnotation(() => new Top),
       TargetDirAnnotation(if (args.isEmpty) defaultDir else args.head)
     )
   )

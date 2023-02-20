@@ -30,7 +30,7 @@ class AXI4LiteBundleR extends AXI4Bundle {
   val data = Output(UInt(DataBits.W))
 }
 
-class AXI4Lite extends Bundle {
+class AXI4LiteIO extends Bundle {
   val aw = Decoupled(new AXI4LiteBundleA)
   val w = Decoupled(new AXI4LiteBundleW)
   val b = Flipped(Decoupled(new AXI4LiteBundleB))
@@ -39,47 +39,24 @@ class AXI4Lite extends Bundle {
 }
 
 class AXI4Memory(filePath: String = "") extends AXI4Module {
-  val io = IO(Flipped(new AXI4Lite))
+  val io = IO(Flipped(new AXI4LiteIO))
 
   io := DontCare
-  val mem = SyncReadMem(1024, UInt((BeatBytes * 8).W))
+  val mem = Mem(1024, UInt((BeatBytes * 8).W))
   if (filePath.trim().nonEmpty) {
     loadMemoryFromFileInline(mem, filePath)
   }
   // todo: add DecoupledIO fire
-  // fixme: wrong AXI4Memory.ar result
-  val read = mem.read(io.ar.bits.addr, true.B).asUInt
+  val read = mem((io.ar.bits.addr >> log2Ceil(BeatBytes).U).asUInt).asUInt
   io.r.bits.data := EndianReverser(BeatBytes * 8, read)
-//  io.r.bits.data := read
   io.r.bits.resp := RespOkay
   io.r.valid := true.B
+
+  //
 
 //  Debug(cf"[AXI4Memory.aw]: ${io.aw.bits.addr}%x")
 //  Debug(cf"[AXI4Memory.w ]: ${io.w.bits.data}%x")
 //  Debug(cf"[AXI4Memory.b ]: ${io.b.bits.resp}%x")
   Debug(cf"[AXI4Memory.ar]: ${io.ar.bits.addr}%x")
   Debug(cf"[AXI4Memory.r ]: ${io.r.bits.data}%x")
-}
-
-// todo: convert to AMBA AXI and ACE Protocol Specification
-class MemIO extends CoreBundle {
-  val enable = Input(Bool())
-  val write = Input(Bool())
-  val addr = Input(UInt(log2Ceil(XLen).W))
-  val dataIn = Input(UInt(XLen.W))
-  val dataOut = Output(UInt(XLen.W))
-}
-
-class Memory(filePath: String = "") extends CoreModule {
-  val io = IO(new MemIO)
-
-  val mem = SyncReadMem(MemBytes, UInt(XLen.W))
-  if (filePath.trim().nonEmpty) {
-    loadMemoryFromFileInline(mem, filePath, MemoryLoadFileType.Hex)
-  }
-
-  io.dataOut := DontCare
-  when(io.enable) {
-    when(io.write) { mem(io.addr) := io.dataIn }.otherwise { io.dataOut := mem(io.addr) }
-  }
 }

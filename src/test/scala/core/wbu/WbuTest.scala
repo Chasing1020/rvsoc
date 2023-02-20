@@ -18,7 +18,7 @@ class WbuTester extends TraceTester {
   val rf = Module(new RegFile)
 
   idu.io.in.pc := 4.U
-  rf.io <> idu.io.rg
+  rf.io <> idu.io.rf
   exu.io.in <> idu.io.out
   wbu.io.in <> exu.io.out
   rf.io.w.data := wbu.io.in.rfw.data

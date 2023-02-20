@@ -6,6 +6,7 @@ import chiseltest._
 import chiseltest.simulator.WriteVcdAnnotation
 import firrtl.options.TargetDirAnnotation
 import org.scalatest.flatspec.AnyFlatSpec
+import utils._
 
 import scala.language.implicitConversions
 import scala.util.Random
@@ -38,13 +39,14 @@ object ScalaAlu {
 
 class AluTest extends AnyFlatSpec with ChiselScalatestTester {
   val targetDir = "test_run_dir/Alu32_should_success/"
+  Logger.level = Level.Debug
 
   behavior.of("Alu32")
 
   it should "success" in {
     test(new Alu(32)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
       val input: List[Long] =
-        List(0L, 1L, Random.nextInt.abs, Random.nextInt.abs, Int.MaxValue.toLong, Int.MaxValue.toLong << 1L)
+        List(0L, 1L, Random.nextInt().abs, Int.MaxValue.toLong, Int.MaxValue.toLong << 1L)
       for {
         op <- 0 to 9
         a <- input

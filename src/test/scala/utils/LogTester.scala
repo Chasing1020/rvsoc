@@ -5,9 +5,9 @@ import Chisel.testers.BasicTester
 
 abstract class LogTester(l: Level) extends BasicTester { Logger.level = l }
 
-class TraceTester extends LogTester(Level.Trace)
-class DebugTester extends LogTester(Level.Debug)
-class InfoTester extends LogTester(Level.Info)
-class WarnTester extends LogTester(Level.Warn)
-class ErrorTester extends LogTester(Level.Error)
-class PanicTester extends LogTester(Level.Panic)
+abstract class TraceTester extends LogTester(Level.Trace)
+abstract class DebugTester extends LogTester(Level.Debug)
+abstract class InfoTester extends LogTester(Level.Info)
+abstract class WarnTester extends LogTester(Level.Warn)
+abstract class ErrorTester extends LogTester(Level.Error)
+abstract class PanicTester extends LogTester(Level.Panic)

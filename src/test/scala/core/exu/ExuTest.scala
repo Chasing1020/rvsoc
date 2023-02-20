@@ -10,12 +10,12 @@ import core.RegFile
 import firrtl.options.TargetDirAnnotation
 import utils._
 
-class ExuTester extends TraceTester {
+class ExuTester extends DebugTester {
   val idu = Module(new Idu)
   val exu = Module(new Exu)
   val rf = Module(new RegFile)
   idu.io.in.pc := 4.U
-  rf.io <> idu.io.rg
+  rf.io <> idu.io.rf
   exu.io.in <> idu.io.out
 
   val insts = VecInit(

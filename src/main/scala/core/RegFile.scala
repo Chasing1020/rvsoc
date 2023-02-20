@@ -2,7 +2,7 @@ package core
 
 import chisel3._
 import chisel3.util._
-import utils.Trace
+import utils._
 
 class RegFileReadIO extends CoreBundle {
   val addr = Input(UInt(log2Ceil(RegNum).W))
@@ -25,10 +25,10 @@ class RegFile extends CoreModule {
   val io = IO(new RegFileIO)
 
   val regs = Mem(RegNum, UInt(XLen.W))
-  io.r1.data := regs(io.r1.addr)
-  io.r2.data := regs(io.r2.addr)
+  io.r1.data := regs.read(io.r1.addr)
+  io.r2.data := regs.read(io.r2.addr)
   when(io.w.en & io.w.addr.orR) {
-    regs(io.w.addr) := io.w.data
+    regs.write(io.w.addr, io.w.data)
   }
 
   Trace(cf"[RegFile.r]: r1.addr: ${io.r1.addr}, r1.data: ${io.r1.data}; r2.addr: ${io.r2.addr}, r2.data: ${io.r2.data}")

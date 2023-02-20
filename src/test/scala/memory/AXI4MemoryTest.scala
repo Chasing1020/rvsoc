@@ -17,11 +17,11 @@ class AXI4MemoryTest extends AnyFlatSpec with ChiselScalatestTester {
       dut.io.r.bits.data.expect("x06428293".U)
 
       //      dut.io.out.inst.expect("0x1050003".U)
-      dut.io.ar.bits.addr.poke(1.U)
+      dut.io.ar.bits.addr.poke(4.U)
       dut.clock.step(1)
       dut.io.r.bits.data.expect("x06430313".U)
 
-      dut.io.ar.bits.addr.poke(2.U)
+      dut.io.ar.bits.addr.poke(8.U)
       dut.clock.step(1)
       dut.io.r.bits.data.expect("x06438393".U)
     }

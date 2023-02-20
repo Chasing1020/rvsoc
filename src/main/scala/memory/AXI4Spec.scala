@@ -7,7 +7,7 @@ import core._
 // link: https://developer.arm.com/documentation/ihi0022/e/AMBA-AXI4-Lite-Interface-Specification
 trait AXI4Config extends CoreConfig {
   final val DataBits:  Int = 32
-  final val BeatBytes: Int = 4 // An individual data transfer within an AXI burst
+  final val BeatBytes: Int = DataBits / 8 // An individual data transfer within an AXI burst
 
   final val ProtBits: Int = 3
   final val RespBits: Int = 2
