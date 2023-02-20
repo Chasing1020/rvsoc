@@ -10,12 +10,14 @@ import core.RegFile
 import firrtl.options.TargetDirAnnotation
 import utils._
 
-class IduTester extends BasicTester {
+class IduTester extends DebugTester {
   Logger.level = Level.Trace
 
-  val dut = Module(new Idu)
+  val idu = Module(new Idu)
   val rf = Module(new RegFile)
-  rf.io <> dut.io.rf
+  rf.io.r1 <> idu.io.rfr1
+  rf.io.r2 <> idu.io.rfr2
+  rf.io.w <> DontCare
 
   val insts = VecInit(
     Seq(
@@ -27,15 +29,15 @@ class IduTester extends BasicTester {
   )
   val (i, done) = Counter(true.B, insts.size)
 
-  dut.io.in.inst := insts(i)
-  dut.io.in.pc := DontCare
+  idu.io.in.inst := insts(i)
+  idu.io.in.pc := DontCare
 
   when(done) { stop() }
 
   Info(cf"Case: $i, Inst: ${insts(i)}")
-  Debug(cf"\t${dut.io.out.data}")
-  Debug(cf"\t${dut.io.out.rfw}")
-  Debug(cf"\t${dut.io.out.fc}")
+  Debug(cf"\t${idu.io.out.data}")
+  Debug(cf"\t${idu.io.out.rfw}")
+  Debug(cf"\t${idu.io.out.fc}")
 }
 
 class LookUpTest extends BasicTester {

@@ -18,15 +18,14 @@ class WbuTester extends TraceTester {
   val rf = Module(new RegFile)
 
   idu.io.in.pc := 4.U
-  rf.io <> idu.io.rf
+  rf.io.r1 <> idu.io.rfr1
+  rf.io.r2 <> idu.io.rfr2
   exu.io.in <> idu.io.out
   wbu.io.in <> exu.io.out
   rf.io.w.data := wbu.io.in.rfw.data
   rf.io.w.en := wbu.io.in.rfw.en
   rf.io.w.addr := wbu.io.in.rfw.addr
 //  rf.io.w <> wbu.io.rf
-
-  wbu.io.rf <> DontCare
 
   val insts = VecInit(
     Seq(

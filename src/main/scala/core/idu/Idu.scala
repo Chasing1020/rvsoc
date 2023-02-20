@@ -29,7 +29,8 @@ class IduOut extends CoreBundle {
 
 class IduIO extends Bundle {
   val in = Flipped(new InstPcOut)
-  val rf = Flipped(new RegFileIO)
+  val rfr1 = Flipped(new RegFileReadIO)
+  val rfr2 = Flipped(new RegFileReadIO)
   val out = new IduOut
 }
 
@@ -40,19 +41,19 @@ class Idu extends CoreModule {
   val imm = ImmGen(io.in.inst, instType)
 
   //  fixme: add regFile in data path
-  io.rf.r1.addr := io.in.inst(19, 15)
-  io.rf.r2.addr := io.in.inst(24, 20)
+  io.rfr1.addr := io.in.inst(19, 15)
+  io.rfr2.addr := io.in.inst(24, 20)
 
   val rs1 :: rs2 :: Nil = utils.MuxList(
     addr = instType,
     default = List(0.U, 0.U),
     mapping = Array(
-      InstType.I -> List(io.rf.r1.data, imm), // rd = rs1 op imm; rd = PC+4, PC = rs1 + imm
-      InstType.S -> List(io.rf.r1.data, io.rf.r2.data), // M[rs1+imm][0:x] = rs2[0:x]
-      InstType.B -> List(io.rf.r1.data, io.rf.r2.data), // if(rs1 op rs2) PC += imm
+      InstType.I -> List(io.rfr1.data, imm), // rd = rs1 op imm; rd = PC+4, PC = rs1 + imm
+      InstType.S -> List(io.rfr1.data, io.rfr2.data), // M[rs1+imm][0:x] = rs2[0:x]
+      InstType.B -> List(io.rfr1.data, io.rfr2.data), // if(rs1 op rs2) PC += imm
       InstType.U -> List(io.in.pc, imm << 12.U), // rd = PC + (imm << 12)
       InstType.J -> List(io.in.pc, imm), // e.g. rd = PC+4; PC += imm
-      InstType.R -> List(io.rf.r1.data, io.rf.r2.data) // rd = rs1 - rs2
+      InstType.R -> List(io.rfr1.data, io.rfr2.data) // rd = rs1 - rs2
     )
   )
   io.out.data.rs1 := rs1
@@ -66,7 +67,6 @@ class Idu extends CoreModule {
   io.out.rfw.en := VecInit(InstType.I, InstType.U, InstType.R, InstType.J).contains(instType)
   io.out.rfw.addr := io.in.inst(11, 7)
 
-  io.rf.w := DontCare
   io.out.pc := io.in.pc
 
   Trace(cf"[Idu.in]: ${io.in}")

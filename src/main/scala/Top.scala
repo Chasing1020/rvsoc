@@ -19,9 +19,10 @@ class Top extends Module {
 
   io.mem <> ifu.io.mem
   idu.io.in <> ifu.io.out
-  rf.io <> idu.io.rf // fixme: rebuild the Idu.io.rf and Wbu.io.rf to avoid re-connect
+  rf.io.r1 <> idu.io.rfr1
+  rf.io.r2 <> idu.io.rfr2
   exu.io.in <> idu.io.out
   wbu.io.in <> exu.io.out
-  rf.io <> wbu.io.rf // fixme: rebuild the Idu.io.rf and Wbu.io.rf to avoid re-connect
+  rf.io.w <> wbu.io.rfw
   ifu.io.in <> wbu.io.out
 }

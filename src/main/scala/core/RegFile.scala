@@ -31,6 +31,6 @@ class RegFile extends CoreModule {
     regs.write(io.w.addr, io.w.data)
   }
 
-  Trace(cf"[RegFile.r]: r1.addr: ${io.r1.addr}, r1.data: ${io.r1.data}; r2.addr: ${io.r2.addr}, r2.data: ${io.r2.data}")
-  Trace(cf"[RegFile.w]: w.en: ${io.w.en} w.addr: ${io.w.addr}, w.data: ${io.w.data}")
+  Info(cf"[RegFile.r]: r1.addr: ${io.r1.addr}, r1.data: ${io.r1.data}; r2.addr: ${io.r2.addr}, r2.data: ${io.r2.data}")
+  Info(cf"[RegFile.w]: w.en: ${io.w.en} w.addr: ${io.w.addr}, w.data: ${io.w.data}")
 }

@@ -16,7 +16,8 @@ import scala.util.Random
 class BruTester extends DebugTester {
   val idu = Module(new Idu)
   val rf = Module(new RegFile)
-  rf.io <> idu.io.rf
+  rf.io.r1 <> idu.io.rfr1
+  rf.io.r2 <> idu.io.rfr2
 
   val insts = VecInit(
     Seq(

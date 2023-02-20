@@ -15,7 +15,8 @@ class ExuTester extends DebugTester {
   val exu = Module(new Exu)
   val rf = Module(new RegFile)
   idu.io.in.pc := 4.U
-  rf.io <> idu.io.rf
+  rf.io.r1 <> idu.io.rfr1
+  rf.io.r2 <> idu.io.rfr2
   exu.io.in <> idu.io.out
 
   val insts = VecInit(
