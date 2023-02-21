@@ -9,7 +9,7 @@ import utils._
 
 class IfuIO extends Bundle {
   val in = Flipped(new BranchOut)
-  val mem = new AXI4LiteIO
+  val imem = new AXI4LiteIO
   val out = new InstPcOut
 }
 
@@ -20,12 +20,12 @@ class Ifu extends CoreModule {
 
   pc := Mux(io.in.taken, io.in.target, pc + 4.U)
 
-  io.mem := DontCare
-  io.mem.ar.valid := true.B
-  io.mem.ar.bits.addr := pc
-  io.mem.w.valid := false.B
+  io.imem <> DontCare
+  io.imem.ar.valid := true.B
+  io.imem.ar.bits.addr := pc
+  io.imem.w.valid := false.B
 
-  io.out.inst := io.mem.r.bits.data
+  io.out.inst := io.imem.r.bits.data
   io.out.pc := pc
 
   Trace(cf"[Ifu.in]: ${io.in}")

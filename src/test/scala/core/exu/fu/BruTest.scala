@@ -18,7 +18,7 @@ class BruTester extends DebugTester {
   val rf = Module(new RegFile)
   rf.io.r1 <> idu.io.rfr1
   rf.io.r2 <> idu.io.rfr2
-
+  rf.io.w <> DontCare
   val insts = VecInit(
     Seq(
       "x00a302e7".U, // jalr x5, x6, 10

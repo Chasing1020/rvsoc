@@ -52,7 +52,6 @@ class AXI4Memory(filePath: String = "") extends AXI4Module {
   io.r.bits.resp := RespOkay
   io.r.valid := true.B
 
-  //
 
 //  Debug(cf"[AXI4Memory.aw]: ${io.aw.bits.addr}%x")
 //  Debug(cf"[AXI4Memory.w ]: ${io.w.bits.data}%x")

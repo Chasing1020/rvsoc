@@ -14,7 +14,7 @@ class IfuTester extends DebugTester {
 
   val ifu = Module(new Ifu)
   val memory = Module(new AXI4Memory("tests/hex/addi.hex"))
-  memory.io <> ifu.io.mem
+  memory.io <> ifu.io.imem
 
   ifu.io.in.taken := false.B
   ifu.io.in.target := 0.U
