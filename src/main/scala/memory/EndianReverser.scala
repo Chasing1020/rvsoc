@@ -22,7 +22,7 @@ class EndianReverser(width: Int = 32) extends Module {
 }
 
 object EndianReverser {
-  def apply(width: Int = 32, in: UInt) = {
+  def apply(in: UInt, width: Int = 32) = {
     val e = Module(new EndianReverser(width))
     e.io.in := in
     e.io.out
