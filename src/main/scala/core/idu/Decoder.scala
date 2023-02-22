@@ -23,8 +23,6 @@ class DecoderIO extends Bundle {
 class Decoder extends Module {
   val io = IO(new DecoderIO)
 
-  val instructions = rules.map(_._1)
-
   val instType :: fuName :: opType :: Nil = ListLookup(io.inst, default, rules)
   io.instType := instType
   io.fuName := fuName

@@ -36,7 +36,7 @@ class RegFileTest extends AnyFlatSpec with ChiselScalatestTester {
 
     (new ChiselStage).emitVerilog(
       gen = new RegFile,
-      annotations = Seq(TargetDirAnnotation("test_run_dir/AXI4Memory_should_success/"))
+      annotations = Seq(TargetDirAnnotation("test_run_dir/RegFile_should_success/"))
     )
   }
 }

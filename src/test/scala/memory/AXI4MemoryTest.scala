@@ -10,7 +10,7 @@ class AXI4MemoryTest extends AnyFlatSpec with ChiselScalatestTester {
   behavior.of("AXI4Memory")
 
   it should "success" in {
-    val filePath = "./tests/hex/addi.hex"
+    val filePath = "./tests/asm/hex/addi.hex"
 
 //    test(new AXI4Memory(filePath)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
 ////      val source = scala.io.Source.fromFile(filePath)

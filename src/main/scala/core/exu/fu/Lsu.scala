@@ -1,6 +1,8 @@
 package core.exu.fu
 
 import chisel3._
+import chisel3.util._
+import core.CoreConfig
 import memory.AXI4LiteIO
 import utils._
 
@@ -16,21 +18,43 @@ case object LsuOp {
   final val Sw:      UInt = "b1000".U
 }
 
-object Lsu {
+object Lsu extends CoreConfig {
   def apply(io: AXI4LiteIO)(en: Bool, rs1: UInt, rs2: UInt, op: UInt, offset: UInt) = {
+    io <> DontCare // todo: remove this
+    Error(cf"[Lsu.io]: $io")
+
+    // Store type
     val wEn = en && VecInit(LsuOp.Sw, LsuOp.Sh, LsuOp.Sb).contains(op)
-
-    io <> DontCare
-    io.ar.valid := en
-    io.ar.bits.addr := (rs1 + offset).asUInt
-
     io.aw.valid := wEn
     io.aw.bits.addr := (rs1 + offset).asUInt
-    // todo: add rw
     io.w.valid := wEn
     io.w.bits.data := rs2
+    io.w.bits.strb := MuxLookup(
+      key = op,
+      default = 0.U,
+      mapping = List(
+        LsuOp.Sb -> "b0001".U,
+        LsuOp.Sh -> "b0011".U,
+        LsuOp.Sw -> "b1111".U
+      )
+    )
 
-    Error(cf"[Lsu.io]: ${io}")
-    io.r.bits.data
+    // Load type
+    io.ar.valid := en
+    io.ar.bits.addr := (rs1 + offset).asUInt
+    val data = io.r.bits.data
+    // format: off
+    MuxLookup(
+      key = op,
+      default = 0.U,
+      mapping = List(
+        LsuOp.Lb  -> Cat(Fill(XLen -  8, data( 7)), data( 7, 0)),
+        LsuOp.Lh  -> Cat(Fill(XLen - 16, data(15)), data(15, 0)),
+        LsuOp.Lw  -> data,
+        LsuOp.Lbu -> Cat(0.U((XLen -  8).W), data( 7, 0)), // zero-extends
+        LsuOp.Lhu -> Cat(0.U((XLen - 16).W), data(15, 0))  // zero-extends
+      )
+    )
+    // format: on
   }
 }

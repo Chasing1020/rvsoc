@@ -29,7 +29,6 @@ class Exu extends CoreModule {
   val aluOut = Alu(width = XLen, a = rs1, b = rs2, op = op)
   val bruOut = Bru(rs1 = rs1, rs2 = rs2, op = op, nextPc = nextPc, offset = offset)
   val lsuOut = Lsu(io.dmem)(en = io.in.fc.name === FuName.Lsu, rs1 = rs1, rs2 = rs2, op = op, offset = offset)
-//  val lsuOut = lsu.access(en = io.in.fc.name === FuName.Lsu, rs1 = rs1, rs2 = rs2, op = op, offset = offset)
 
   io.out.rfw <> io.in.rfw
   io.out.rfw.data := MuxLookup(

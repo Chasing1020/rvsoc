@@ -3,8 +3,6 @@ package memory
 import chisel3._
 import chisel3.util._
 import chisel3.util.experimental.loadMemoryFromFileInline
-import core._
-import firrtl.annotations.MemoryLoadFileType
 import utils._
 
 // Read & Write address channel

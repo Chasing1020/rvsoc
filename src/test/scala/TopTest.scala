@@ -9,9 +9,9 @@ import utils._
 
 class TopTester extends TraceTester {
   val top = Module(new Top)
-  val mem = Module(new AXI4Memory("tests/hex/addi.hex"))
-  mem.io <> top.io.dmem
-  top.io.imem <> DontCare
+  val mem = Module(new AXI4Memory("tests/asm/hex/addi.hex"))
+  mem.io <> top.io.imem
+  top.io.dmem <> DontCare
   val (i, done) = Counter(true.B, 6)
 
   when(done) { stop() }
