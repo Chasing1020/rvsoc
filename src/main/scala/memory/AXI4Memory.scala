@@ -39,7 +39,7 @@ class AXI4LiteIO extends Bundle {
 class AXI4Memory(filePath: String = "") extends AXI4Module {
   val io = IO(Flipped(new AXI4LiteIO))
 
-  io := DontCare
+  io <> DontCare
   val mem = Mem(1024, UInt(DataBits.W))
   if (filePath.trim().nonEmpty) {
     loadMemoryFromFileInline(mem, filePath)

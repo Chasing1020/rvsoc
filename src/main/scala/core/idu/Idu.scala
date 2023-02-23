@@ -51,7 +51,7 @@ class Idu extends CoreModule {
       InstType.I -> List(io.rfr1.data, imm), // rd = rs1 op imm; rd = PC+4, PC = rs1 + imm
       InstType.S -> List(io.rfr1.data, io.rfr2.data), // M[rs1+imm][0:x] = rs2[0:x]
       InstType.B -> List(io.rfr1.data, io.rfr2.data), // if(rs1 op rs2) PC += imm
-      InstType.U -> List(io.in.pc, imm << 12.U), // rd = PC + (imm << 12)
+      InstType.U -> List(io.in.pc, imm), // rd = PC + (imm << 12)
       InstType.J -> List(io.in.pc, imm), // e.g. rd = PC+4; PC += imm
       InstType.R -> List(io.rfr1.data, io.rfr2.data) // rd = rs1 - rs2
     )
