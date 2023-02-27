@@ -4,7 +4,7 @@ import chisel3._
 import chisel3.util.log2Ceil
 
 trait CoreConfig {
-  final val XLen:   Int = 64
+  final val XLen:   Int = 32
   final val RegNum: Int = 32
 
   final val MemBase:  Int = 0x0000_0000

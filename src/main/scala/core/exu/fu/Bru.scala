@@ -3,8 +3,20 @@ package core.exu.fu
 import chisel3._
 import chisel3.util.MuxLookup
 import core.CoreBundle
-import core.idu.BruOp
 import utils._
+
+case object BruOp {
+  final val Unknown: UInt = "b0000".U
+  final val Jal:     UInt = "b0001".U
+  final val Jalr:    UInt = "b0010".U
+  final val Beq:     UInt = "b0000".U
+  final val Bne:     UInt = "b0001".U
+  final val Blt:     UInt = "b0100".U
+  final val Bge:     UInt = "b0101".U
+  final val Bltu:    UInt = "b0110".U
+  final val Bgeu:    UInt = "b0111".U
+}
+
 
 class BranchOut extends Bundle {
   val taken = Output(Bool())

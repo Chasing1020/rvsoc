@@ -2,7 +2,7 @@ package core.idu
 
 import chisel3._
 import chisel3.util._
-import core.exu.fu.AluOp
+import core.exu.fu.{AluOp, BruOp, LsuOp}
 import core.idu.Decoder._
 import core.idu.Instruction._
 
@@ -11,18 +11,6 @@ case object FuName {
   final val Alu:     UInt = "b01".U
   final val Bru:     UInt = "b10".U
   final val Lsu:     UInt = "b11".U
-}
-
-case object BruOp {
-  final val Unknown: UInt = "b0000".U
-  final val Jal:     UInt = "b0001".U
-  final val Jalr:    UInt = "b0010".U
-  final val Beq:     UInt = "b0000".U
-  final val Bne:     UInt = "b0001".U
-  final val Blt:     UInt = "b0100".U
-  final val Bge:     UInt = "b0101".U
-  final val Bltu:    UInt = "b0110".U
-  final val Bgeu:    UInt = "b0111".U
 }
 
 class DecoderIO extends Bundle {
@@ -34,8 +22,6 @@ class DecoderIO extends Bundle {
 
 class Decoder extends Module {
   val io = IO(new DecoderIO)
-
-  val instructions = rules.map(_._1)
 
   val instType :: fuName :: opType :: Nil = ListLookup(io.inst, default, rules)
   io.instType := instType
@@ -58,7 +44,15 @@ object Decoder {
     BLT   -> List(InstType.B, FuName.Bru, BruOp.Blt  ),
     BGE   -> List(InstType.B, FuName.Bru, BruOp.Bge  ),
     BLTU  -> List(InstType.B, FuName.Bru, BruOp.Bltu ),
-    BGEU  -> List(InstType.B, FuName.Bru, BruOp.Bgeu ), // todo: LSU
+    BGEU  -> List(InstType.B, FuName.Bru, BruOp.Bgeu ),
+    LB    -> List(InstType.I, FuName.Lsu, LsuOp.Lb   ),
+    LH    -> List(InstType.I, FuName.Lsu, LsuOp.Lh   ),
+    LW    -> List(InstType.I, FuName.Lsu, LsuOp.Lw   ),
+    LBU   -> List(InstType.I, FuName.Lsu, LsuOp.Lbu  ),
+    LHU   -> List(InstType.I, FuName.Lsu, LsuOp.Lhu  ),
+    SB    -> List(InstType.S, FuName.Lsu, LsuOp.Sb   ),
+    SH    -> List(InstType.S, FuName.Lsu, LsuOp.Sh   ),
+    SW    -> List(InstType.S, FuName.Lsu, LsuOp.Sw   ),
     ADDI  -> List(InstType.I, FuName.Alu, AluOp.Add  ),
     SLTI  -> List(InstType.I, FuName.Alu, AluOp.Slt  ),
     SLTIU -> List(InstType.I, FuName.Alu, AluOp.Sltu ),
