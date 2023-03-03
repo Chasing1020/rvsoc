@@ -22,7 +22,7 @@ class ImmGen extends CoreModule {
       InstType.S -> Cat(Fill(20, inst(31)), inst(31, 25), inst(11, 7)),
       InstType.B -> Cat(Fill(20, inst(31)), inst(7), inst(30, 25), inst(11, 8), 0.U(1.W)),
       InstType.U -> Cat(inst(31, 12), 0.U(12.W)),
-      InstType.J -> Cat(Fill(12, inst(31)), inst(19, 12), inst(20), inst(30, 21), 0.U(1.W))
+      InstType.J -> Cat(Fill(12, inst(31)), inst(19, 12), inst(20), inst(30, 21), 0.U(1.W)),
     )
   )
 }

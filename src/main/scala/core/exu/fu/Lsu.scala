@@ -35,7 +35,7 @@ object Lsu extends CoreConfig {
       mapping = List(
         LsuOp.Sb -> "b0001".U,
         LsuOp.Sh -> "b0011".U,
-        LsuOp.Sw -> "b1111".U
+        LsuOp.Sw -> "b1111".U,
       )
     )
 
@@ -52,7 +52,7 @@ object Lsu extends CoreConfig {
         LsuOp.Lh  -> Cat(Fill(XLen - 16, data(15)), data(15, 0)),
         LsuOp.Lw  -> data,
         LsuOp.Lbu -> Cat(0.U((XLen -  8).W), data( 7, 0)), // zero-extends
-        LsuOp.Lhu -> Cat(0.U((XLen - 16).W), data(15, 0))  // zero-extends
+        LsuOp.Lhu -> Cat(0.U((XLen - 16).W), data(15, 0)), // zero-extends
       )
     )
     // format: on

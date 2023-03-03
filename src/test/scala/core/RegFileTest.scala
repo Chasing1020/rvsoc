@@ -14,17 +14,17 @@ class RegFileTest extends AnyFlatSpec with ChiselScalatestTester {
       dut.io.w.addr.poke(0.U)
       dut.io.w.data.poke(1.U)
       dut.io.w.en.poke(true.B)
-      dut.clock.step(1)
+      dut.clock.step(1) // x0 = 1
 
       dut.io.w.addr.poke(5.U)
       dut.io.w.data.poke(6.U)
       dut.io.w.en.poke(true.B)
-      dut.clock.step(1)
+      dut.clock.step(1) // x5 = 6
 
       dut.io.w.addr.poke(6.U)
       dut.io.w.data.poke(7.U)
       dut.io.w.en.poke(true.B)
-      dut.clock.step(1)
+      dut.clock.step(1) // x6 = 7
 
       dut.io.r1.addr.poke(0.U)
       dut.io.r1.data.expect(0.U)
@@ -32,6 +32,7 @@ class RegFileTest extends AnyFlatSpec with ChiselScalatestTester {
       dut.io.r2.data.expect(6.U)
       dut.io.r1.addr.poke(6.U)
       dut.io.r1.data.expect(7.U)
+      dut.clock.step(1)
     }
 
     (new ChiselStage).emitVerilog(

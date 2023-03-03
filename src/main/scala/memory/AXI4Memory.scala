@@ -54,7 +54,7 @@ class AXI4Memory(filePath: String = "") extends AXI4Module {
     write | (Mux(
       io.w.bits.strb.asBools(i),
       io.w.bits.data,
-      read
+      read,
     )(8 * (i + 1) - 1, 8 * i) << (8 * i).U).asUInt
   }
   when(io.w.valid && io.aw.valid) {

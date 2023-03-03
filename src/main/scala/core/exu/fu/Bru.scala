@@ -46,7 +46,7 @@ class Bru extends Module {
       BruOp.Blt -> (io.rs1.asSInt < io.rs2.asSInt),
       BruOp.Bge -> (io.rs1.asSInt >= io.rs2.asSInt),
       BruOp.Bltu -> (io.rs1 < io.rs2),
-      BruOp.Bgeu -> (io.rs1 >= io.rs2)
+      BruOp.Bgeu -> (io.rs1 >= io.rs2),
     )
   )
 

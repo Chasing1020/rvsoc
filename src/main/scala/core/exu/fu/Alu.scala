@@ -43,7 +43,7 @@ class Alu(width: Int = 32) extends Module {
     AluOp.Srl -> (io.a >> shamt),
     AluOp.Sra -> (io.a.asSInt >> shamt).asUInt,
     AluOp.CopyA -> io.a,
-    AluOp.CopyB -> io.b
+    AluOp.CopyB -> io.b,
   )
   io.out := MuxLookup(key = io.op, default = 0.U, mapping = opList)
   Trace(cf"[Alu]: $io")
