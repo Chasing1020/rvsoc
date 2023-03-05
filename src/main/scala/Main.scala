@@ -12,7 +12,7 @@ object Main extends App {
     Seq(
       ThrowOnFirstErrorAnnotation,
       ChiselGeneratorAnnotation(() => new Top),
-      TargetDirAnnotation(if (args.isEmpty) defaultDir else args.head)
-    )
+      TargetDirAnnotation(if (args.isEmpty) defaultDir else args.head),
+    ),
   )
 }

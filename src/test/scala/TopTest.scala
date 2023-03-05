@@ -25,7 +25,7 @@ class TopTest extends AnyFlatSpec with ChiselScalatestTester {
 
     (new ChiselStage).emitVerilog(
       gen = new Top,
-      annotations = Seq(TargetDirAnnotation("test_run_dir/Top_should_success/"))
+      annotations = Seq(TargetDirAnnotation("test_run_dir/Top_should_success/")),
     )
   }
 }

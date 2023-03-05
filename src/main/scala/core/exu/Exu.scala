@@ -38,7 +38,7 @@ class Exu extends CoreModule {
       FuName.Alu -> aluOut,
       FuName.Bru -> nextPc,
       FuName.Lsu -> lsuOut,
-    )
+    ),
   )
   io.out.br.taken := Mux(io.in.fc.name === FuName.Bru, bruOut.taken, false.B)
   io.out.br.target := bruOut.target

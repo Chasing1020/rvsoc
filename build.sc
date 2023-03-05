@@ -17,17 +17,17 @@ object rvsoc extends SbtModule with PublishModule { m =>
     "-deprecation",
     "-feature",
     "-Xcheckinit",
-    "-P:chiselplugin:genBundleElements"
+    "-P:chiselplugin:genBundleElements",
   )
   override def ivyDeps = Agg(
-    ivy"edu.berkeley.cs::chisel3:3.5.4"
+    ivy"edu.berkeley.cs::chisel3:3.5.4",
   )
   override def scalacPluginIvyDeps = Agg(
-    ivy"edu.berkeley.cs:::chisel3-plugin:3.5.4"
+    ivy"edu.berkeley.cs:::chisel3-plugin:3.5.4",
   )
   object test extends Tests with ScalaTest {
     override def ivyDeps = m.ivyDeps() ++ Agg(
-      ivy"edu.berkeley.cs::chiseltest:0.5.4"
+      ivy"edu.berkeley.cs::chiseltest:0.5.4",
     )
   }
 
@@ -40,7 +40,7 @@ object rvsoc extends SbtModule with PublishModule { m =>
     licenses = Seq(License.MIT),
     versionControl = VersionControl.github("lihaoyi", "example"),
     developers = Seq(
-      Developer("Chasing1020", "Chasing1020", "https://github.com/chasing1020")
-    )
+      Developer("Chasing1020", "Chasing1020", "https://github.com/chasing1020"),
+    ),
   )
 }

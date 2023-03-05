@@ -32,7 +32,7 @@ class ExuTester extends TraceTester {
 //      "x00a28293".U, // addi x5, x5, 10
 //      "x06431293".U, // slli x5, x6, 100
 //      "x00628863".U // beq x5, x6, 16
-    )
+    ),
   )
   val (i, done) = Counter(true.B, insts.size)
 
@@ -56,7 +56,7 @@ class BruTest extends AnyFlatSpec with ChiselScalatestTester {
 
     (new ChiselStage).emitVerilog(
       gen = new Exu,
-      annotations = Seq(TargetDirAnnotation("test_run_dir/Exu_should_success/"))
+      annotations = Seq(TargetDirAnnotation("test_run_dir/Exu_should_success/")),
     )
   }
 }

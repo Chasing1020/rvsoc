@@ -36,7 +36,7 @@ object Lsu extends CoreConfig {
         LsuOp.Sb -> "b0001".U,
         LsuOp.Sh -> "b0011".U,
         LsuOp.Sw -> "b1111".U,
-      )
+      ),
     )
 
     // Load type

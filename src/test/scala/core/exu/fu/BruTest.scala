@@ -22,8 +22,8 @@ class BruTester extends DebugTester {
   val insts = VecInit(
     Seq(
       "x00a302e7".U, // jalr x5, x6, 10
-      "x00628863".U // beq x5, x6, 16
-    )
+      "x00628863".U, // beq x5, x6, 16
+    ),
   )
   val (i, done) = Counter(true.B, insts.size)
 
@@ -73,7 +73,7 @@ class BruTest extends AnyFlatSpec with ChiselScalatestTester {
 
     (new ChiselStage).emitVerilog(
       gen = new Bru,
-      annotations = Seq(TargetDirAnnotation("test_run_dir/Bru_should_success/"))
+      annotations = Seq(TargetDirAnnotation("test_run_dir/Bru_should_success/")),
     )
   }
 }

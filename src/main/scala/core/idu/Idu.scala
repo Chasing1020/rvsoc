@@ -54,7 +54,7 @@ class Idu extends CoreModule {
       InstType.U -> List(io.in.pc, imm), // rd = PC + (imm << 12)
       InstType.J -> List(io.in.pc, imm), // e.g. rd = PC+4; PC += imm
       InstType.R -> List(io.rfr1.data, io.rfr2.data), // rd = rs1 - rs2
-    )
+    ),
   )
   io.out.data.rs1 := rs1
   io.out.data.rs2 := rs2

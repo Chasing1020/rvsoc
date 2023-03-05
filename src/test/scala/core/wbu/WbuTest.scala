@@ -31,8 +31,8 @@ class WbuTester extends TraceTester {
   val insts = VecInit(
     Seq(
       "x00a28313".U, // addi x6, x5, 10
-      "x00a30393".U // addi x7, x6, 10
-    )
+      "x00a30393".U, // addi x7, x6, 10
+    ),
   )
   val (i, done) = Counter(true.B, insts.size)
 
@@ -56,7 +56,7 @@ class WbuTest extends AnyFlatSpec with ChiselScalatestTester {
 
     (new ChiselStage).emitVerilog(
       gen = new Wbu,
-      annotations = Seq(TargetDirAnnotation("test_run_dir/Wbu_should_success/"))
+      annotations = Seq(TargetDirAnnotation("test_run_dir/Wbu_should_success/")),
     )
   }
 }

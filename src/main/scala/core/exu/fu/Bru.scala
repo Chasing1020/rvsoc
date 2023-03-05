@@ -17,7 +17,6 @@ case object BruOp {
   final val Bgeu:    UInt = "b0111".U
 }
 
-
 class BranchOut extends Bundle {
   val taken = Output(Bool())
   val target = Output(UInt(32.W))
@@ -47,7 +46,7 @@ class Bru extends Module {
       BruOp.Bge -> (io.rs1.asSInt >= io.rs2.asSInt),
       BruOp.Bltu -> (io.rs1 < io.rs2),
       BruOp.Bgeu -> (io.rs1 >= io.rs2),
-    )
+    ),
   )
 
   // JALR target address will set the least-significant bit of the result to zero.

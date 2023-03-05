@@ -29,7 +29,7 @@ class DecoderTest extends AnyFlatSpec with ChiselScalatestTester {
 
     (new ChiselStage).emitVerilog(
       gen = new Decoder,
-      annotations = Seq(TargetDirAnnotation("test_run_dir/Decoder_should_success/"))
+      annotations = Seq(TargetDirAnnotation("test_run_dir/Decoder_should_success/")),
     )
   }
 }

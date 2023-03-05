@@ -37,7 +37,7 @@ class IfuTest extends AnyFlatSpec with ChiselScalatestTester {
 
     (new ChiselStage).emitVerilog(
       gen = new RegFile,
-      annotations = Seq(TargetDirAnnotation("test_run_dir/Ifu_should_success/"))
+      annotations = Seq(TargetDirAnnotation("test_run_dir/Ifu_should_success/")),
     )
   }
 }

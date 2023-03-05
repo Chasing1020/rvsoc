@@ -31,7 +31,7 @@ class EndianReverserTest extends AnyFlatSpec with ChiselScalatestTester {
 
     (new ChiselStage).emitVerilog(
       gen = new EndianReverser(64),
-      annotations = Seq(TargetDirAnnotation("test_run_dir/EndianReverser_should_success/"))
+      annotations = Seq(TargetDirAnnotation("test_run_dir/EndianReverser_should_success/")),
     )
   }
 }

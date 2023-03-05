@@ -31,7 +31,7 @@ object ScalaAlu {
       AluOp.Srl.litValue -> (asUnsigned(a) >> shamt),
       AluOp.Sra.litValue -> (asSigned(a) >> shamt),
       AluOp.CopyA.litValue -> a,
-      AluOp.CopyB.litValue -> b
+      AluOp.CopyB.litValue -> b,
     )
     asUnsigned(table.getOrElse(op, 0L))
   }
@@ -64,7 +64,7 @@ class AluTest extends AnyFlatSpec with ChiselScalatestTester {
 
     (new ChiselStage).emitVerilog(
       gen = new Alu(32),
-      annotations = Seq(TargetDirAnnotation(targetDir))
+      annotations = Seq(TargetDirAnnotation(targetDir)),
     )
   }
 }

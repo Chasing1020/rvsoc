@@ -24,8 +24,8 @@ class IduTester extends DebugTester {
       "x00a28293".U, // addi x5, x5, 10
       "x00a302e7".U, // jalr x5, x6, 10
       "x007302b3".U, // add x5, x6, x7
-      "x00628863".U // beq x5, x6, 16
-    )
+      "x00628863".U, // beq x5, x6, 16
+    ),
   )
   val (i, done) = Counter(true.B, insts.size)
 
@@ -50,8 +50,8 @@ class LookUpTest extends BasicTester {
       3.U -> List(1.U, 2.U), // if(rs1 op rs2) PC += imm
       4.U -> List(3.U, 4.U), // rd = PC + (imm op)
       5.U -> List(3.U, 4.U), // e.g. rd = PC+4; PC += imm
-      6.U -> List(1.U, 2.U) // rd = rs1 - rs2
-    )
+      6.U -> List(1.U, 2.U), // rd = rs1 - rs2
+    ),
   )
   printf(cf"rs1: $rs1, rs2: $rs2\n") // rs1:  1, rs2:  4
   stop()
@@ -65,7 +65,7 @@ class IduTest extends AnyFlatSpec with ChiselScalatestTester {
 
     (new ChiselStage).emitVerilog(
       gen = new Idu,
-      annotations = Seq(TargetDirAnnotation("test_run_dir/Idu_should_success/"))
+      annotations = Seq(TargetDirAnnotation("test_run_dir/Idu_should_success/")),
     )
   }
 
