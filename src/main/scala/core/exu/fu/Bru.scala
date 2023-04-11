@@ -9,12 +9,12 @@ case object BruOp {
   final val Unknown: UInt = "b0000".U
   final val Jal:     UInt = "b0001".U
   final val Jalr:    UInt = "b0010".U
-  final val Beq:     UInt = "b0000".U
-  final val Bne:     UInt = "b0001".U
-  final val Blt:     UInt = "b0100".U
-  final val Bge:     UInt = "b0101".U
-  final val Bltu:    UInt = "b0110".U
-  final val Bgeu:    UInt = "b0111".U
+  final val Beq:     UInt = "b0011".U
+  final val Bne:     UInt = "b0100".U
+  final val Blt:     UInt = "b0101".U
+  final val Bge:     UInt = "b0110".U
+  final val Bltu:    UInt = "b0111".U
+  final val Bgeu:    UInt = "b1000".U
 }
 
 class BranchOut extends Bundle {
@@ -26,7 +26,7 @@ class BruIO extends CoreBundle {
   val rs1 = Input(UInt(XLen.W))
   val rs2 = Input(UInt(XLen.W))
   val op = Input(UInt(3.W))
-  val nextPc = Input(UInt(XLen.W))
+  val pc = Input(UInt(XLen.W))
   val offset = Input(UInt(XLen.W))
   val out = new BranchOut
 }
@@ -50,18 +50,19 @@ class Bru extends Module {
   )
 
   // JALR target address will set the least-significant bit of the result to zero.
-  io.out.target := Mux(io.op === BruOp.Jalr, (io.rs1 + io.offset) >> 1.U << 1.U, io.nextPc + io.offset)
+  io.out.target := Mux(io.op === BruOp.Jalr, (io.rs1 + io.offset) >> 1.U << 1.U, io.pc + io.offset)
 
-  Trace(cf"[Bru]: $io")
+  Debug(cf"[Bru]: $io")
+  Debug(cf"[Bru]: ${BruOp.Jal === io.op}")
 }
 
 object Bru {
-  def apply(rs1: UInt, rs2: UInt, op: UInt, nextPc: UInt, offset: UInt) = {
+  def apply(rs1: UInt, rs2: UInt, op: UInt, pc: UInt, offset: UInt) = {
     val bru = Module(new Bru)
     bru.io.rs1 := rs1
     bru.io.rs2 := rs2
     bru.io.op := op
-    bru.io.nextPc := nextPc
+    bru.io.pc := pc
     bru.io.offset := offset
     bru.io.out
   }

@@ -35,7 +35,7 @@ class BruTester extends DebugTester {
   val pc = idu.io.out.pc
   val op = idu.io.out.fc.op
 
-  val bruOut = Bru(rs1 = rs1, rs2 = rs2, op = op, nextPc = pc + 4.U, offset = offset)
+  val bruOut = Bru(rs1 = rs1, rs2 = rs2, op = op, pc = pc + 4.U, offset = offset)
   when(done) { stop() }
   Info(cf"Case: $i, Inst: ${insts(i)}")
   Debug(cf"\t${idu.io.out.data}")
@@ -64,7 +64,7 @@ class BruTest extends AnyFlatSpec with ChiselScalatestTester {
         dut.io.rs1.poke(rs1.U)
         dut.io.rs2.poke(rs2.U)
         dut.io.op.poke(op.U)
-        dut.io.nextPc.poke(pc.U)
+        dut.io.pc.poke(pc.U)
         dut.io.offset.poke(offset.U)
 
         dut.clock.step(1) // for vcd

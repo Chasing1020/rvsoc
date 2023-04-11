@@ -23,11 +23,11 @@ class Exu extends CoreModule {
   val rs1 = io.in.data.rs1
   val rs2 = io.in.data.rs2
   val offset = io.in.data.offset
-  val nextPc = io.in.pc + 4.U
+  val pc = io.in.pc
   val op = io.in.fc.op
 
   val aluOut = Alu(width = XLen, rs1 = rs1, rs2 = rs2, op = op)
-  val bruOut = Bru(rs1 = rs1, rs2 = rs2, op = op, nextPc = nextPc, offset = offset)
+  val bruOut = Bru(rs1 = rs1, rs2 = rs2, op = op, pc = pc, offset = offset)
   val lsuOut = Lsu(io.dmem)(en = io.in.fc.name === FuName.Lsu, rs1 = rs1, rs2 = rs2, op = op, offset = offset)
   val csrOut = Csr(en = io.in.fc.name === FuName.Lsu, rs1 = rs1, rs2 = rs2, op = op, pc = io.in.pc)
 
@@ -37,13 +37,14 @@ class Exu extends CoreModule {
     default = 0.U,
     mapping = List(
       FuName.Alu -> aluOut,
-      FuName.Bru -> nextPc,
+      FuName.Bru -> (pc + 4.U),
       FuName.Lsu -> lsuOut,
     ),
   )
   io.out.br.taken := Mux(io.in.fc.name === FuName.Bru, bruOut.taken, false.B)
   io.out.br.target := bruOut.target
 
-  Trace(cf"[Exu.in]: ${io.in}")
-  Trace(cf"[Exu.out]: ${io.out}")
+//  Debug(cf"[Exu.in]: ${io.in}")
+//  Debug(cf"[Exu.out]: ${io.out}")
+//  Debug(cf"[pc]: ${io.in.pc}")
 }

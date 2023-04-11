@@ -4,6 +4,12 @@ import chisel3._
 import chisel3.util.{is, switch, Mux1H, MuxLookup}
 import core.CoreModule
 
+case object Mode {
+  final val User:       Int = 0
+  final val Supervisor: Int = 1
+  final val Machine:    Int = 3
+}
+
 case object CsrOp {
   final val Unknown: UInt = "b0000".U
   final val Jmp:     UInt = "b0001".U
@@ -115,7 +121,7 @@ class Csr extends CoreModule with CsrSpec {
   val exceptionNO = Mux1H(
     List(
       io.isInvOpcode -> 2.U,
-      isEcall -> 11.U,
+      isEcall -> 11.U, // 8 + prv mode (3: machine mode)
     ),
   )
 

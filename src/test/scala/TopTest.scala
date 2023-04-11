@@ -12,16 +12,18 @@ class TopTester(filePath: String = "tests/asm/add.hex") extends DebugTester {
   val mem = Module(new AXI4Memory(filePath))
   mem.io <> top.io.imem
   top.io.dmem <> DontCare
-  val (i, done) = Counter(true.B, 6)
+//  val (i, done) = Counter(true.B, 6)
 
-  when(done) { stop() }
+  when(top.io.exit) { stop() }
 }
 
 class TopTest extends AnyFlatSpec with ChiselScalatestTester {
   behavior.of("Top")
 
   it should "success" in {
-    test(new TopTester("tests/asm/unimp.hex")).withAnnotations(Seq(WriteVcdAnnotation)).runUntilStop()
+
+    // todo: lb, sb
+    test(new TopTester("tests/asm/lui.hex")).withAnnotations(Seq(WriteVcdAnnotation)).runUntilStop()
 
     (new ChiselStage).emitVerilog(
       gen = new Top,

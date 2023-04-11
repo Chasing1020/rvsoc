@@ -71,4 +71,5 @@ class Idu extends CoreModule {
 
   Trace(cf"[Idu.in]: ${io.in}")
   Trace(cf"[Idu.out]: ${io.out}")
+  Debug("[inst]: %x", io.in.inst)
 }

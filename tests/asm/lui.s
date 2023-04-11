@@ -1,8 +1,7 @@
 .text
-.global _start
-_start:
-    lui x0, 0
-    lui x1, 0
-    lui x2, 0
-    lui x3, 0
+.global	_start
 
+_start:
+	lui x5, 0x12345		# int x5 = 0x12345 << 12
+	addi x5, x5, 0x678	# x5 = x5 + 0x678 = 0x12345 << 12
+	unimp

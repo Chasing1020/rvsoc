@@ -61,9 +61,9 @@ class AXI4Memory(filePath: String = "") extends AXI4Module {
     mem.write((io.aw.bits.addr >> log2Ceil(BeatBytes).U).asUInt, EndianReverser(write, DataBits))
   }
 
-  Debug(cf"[AXI4Memory.aw]: ${io.aw}")
-  Debug(cf"[AXI4Memory.w ]: ${io.w}")
-  Debug(cf"[AXI4Memory.b ]: ${io.b}")
-  Debug(cf"[AXI4Memory.ar]: ${io.ar}")
-  Debug(cf"[AXI4Memory.r ]: ${io.r}")
+//  Debug(cf"[AXI4Memory.aw]: ${io.aw}")
+//  Debug(cf"[AXI4Memory.w ]: ${io.w}")
+//  Debug(cf"[AXI4Memory.b ]: ${io.b}")
+//  Debug(cf"[AXI4Memory.ar]: ${io.ar}")
+//  Debug(cf"[AXI4Memory.r ]: ${io.r}")
 }

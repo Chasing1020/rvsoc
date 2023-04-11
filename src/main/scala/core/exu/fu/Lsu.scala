@@ -21,7 +21,7 @@ case object LsuOp {
 object Lsu extends CoreConfig {
   def apply(io: AXI4LiteIO)(en: Bool, rs1: UInt, rs2: UInt, op: UInt, offset: UInt) = {
     io <> DontCare // todo: remove this
-    Error(cf"[Lsu.io]: $io")
+//    Error(cf"[Lsu.io]: $io")
 
     // Store type
     val wEn = en && VecInit(LsuOp.Sw, LsuOp.Sh, LsuOp.Sb).contains(op)
