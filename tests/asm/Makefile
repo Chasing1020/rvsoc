@@ -20,13 +20,13 @@ all: $(ASM_FILES)
 
 %.out: %.s
 	$(CC) $(CFLAGS) $^ -o $@
-	$(OBJDUMP) -D $@ > ./dump/$@.dmp
+	$(OBJDUMP) -D $@ > ./$@.dmp
 
 %.bin: %.out
 	$(OBJCOPY) -O binary $^ $@
 
 %.hex: %.bin
-	xxd -p -c 4 $^ > ./hex/$@
+	xxd -p -c 4 $^ > ./$@
 
 clean:
 	rm $(BIN_FILES) $(ELF_FILES) $(HEX_FILES) $(DUMP_FILES)

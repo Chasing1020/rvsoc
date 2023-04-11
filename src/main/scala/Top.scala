@@ -10,6 +10,7 @@ class Top extends Module {
   val io = IO(new Bundle {
     val imem = new AXI4LiteIO
     val dmem = new AXI4LiteIO
+    val exit = Output(Bool())
   })
 
   val ifu = Module(new Ifu)
@@ -27,4 +28,6 @@ class Top extends Module {
   wbu.io.in <> exu.io.out
   rf.io.w <> wbu.io.rfw
   ifu.io.in <> wbu.io.out
+
+  io.exit := ifu.io.out.inst === Instruction.UNIMP
 }

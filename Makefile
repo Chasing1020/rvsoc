@@ -7,7 +7,7 @@ TEST_FILE  := $(shell find $(TEST_DIR) -name '*.scala')
 
 MILL       := mill
 
-default: compile
+.DEFAULT_GOAL := compile
 
 compile: $(SCALA_FILE)
 	$(MILL) -i -j 0 _.run $(BUILD_DIR)
@@ -24,4 +24,4 @@ idea:
 test: $(TEST_FILE)
 	$(MILL) -i _.test
 
-.PHONY: default compile clean bsp idea test
+.PHONY: compile clean bsp idea test

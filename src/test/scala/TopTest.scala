@@ -7,9 +7,9 @@ import memory.AXI4Memory
 import org.scalatest.flatspec.AnyFlatSpec
 import utils._
 
-class TopTester extends TraceTester {
+class TopTester(filePath: String = "tests/asm/add.hex") extends DebugTester {
   val top = Module(new Top)
-  val mem = Module(new AXI4Memory("tests/asm/hex/addi.hex"))
+  val mem = Module(new AXI4Memory(filePath))
   mem.io <> top.io.imem
   top.io.dmem <> DontCare
   val (i, done) = Counter(true.B, 6)
@@ -21,7 +21,7 @@ class TopTest extends AnyFlatSpec with ChiselScalatestTester {
   behavior.of("Top")
 
   it should "success" in {
-    test(new TopTester).withAnnotations(Seq(WriteVcdAnnotation)).runUntilStop()
+    test(new TopTester("tests/asm/unimp.hex")).withAnnotations(Seq(WriteVcdAnnotation)).runUntilStop()
 
     (new ChiselStage).emitVerilog(
       gen = new Top,

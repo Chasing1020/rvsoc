@@ -4,12 +4,13 @@ import mill.define.Sources
 import mill.modules.Util
 import mill.scalalib._
 import mill.scalalib.TestModule._
+import mill.scalalib.scalafmt.ScalafmtModule
 import publish._
 import scalalib._
 // support BSP
 import mill.bsp._
 
-object rvsoc extends SbtModule with PublishModule { m =>
+object rvsoc extends SbtModule with PublishModule with ScalafmtModule { m =>
   override def millSourcePath = os.pwd
   override def scalaVersion = "2.13.8"
   override def scalacOptions = Seq(

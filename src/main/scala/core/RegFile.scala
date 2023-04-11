@@ -73,7 +73,7 @@ object RegFile extends CoreConfig {
     "  t6", // x31
   )
 
-  def dump(regs: Mem[UInt], useAbiMap: Boolean = true) =
+  def dump(regs: Mem[UInt], useAbiMap: Boolean = false) =
     (0 until RegNum).foldLeft(Printable.pack("[RegFile.dump]: \n"))((s, i) =>
       s + cf"${if (useAbiMap) AbiMap(i) else "x%02d".format(i)}: ${regs.read(i.U)}"
         + cf"${if (i % 8 != 7) ", " else "\n"}",
