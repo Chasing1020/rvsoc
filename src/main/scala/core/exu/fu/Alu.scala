@@ -21,8 +21,8 @@ case object AluOp {
 }
 
 class AluIO(width: Int) extends Bundle {
-  val a = Input(UInt(width.W))
-  val b = Input(UInt(width.W))
+  val rs1 = Input(UInt(width.W))
+  val rs2 = Input(UInt(width.W))
   val op = Input(UInt(4.W))
   val out = Output(UInt(width.W))
 }
@@ -30,30 +30,30 @@ class AluIO(width: Int) extends Bundle {
 class Alu(width: Int = 32) extends Module {
   val io = IO(new AluIO(width))
 
-  val shamt = io.b(4, 0)
+  val shamt = io.rs2(4, 0)
   val opList = List(
-    AluOp.Add -> (io.a + io.b),
-    AluOp.Sub -> (io.a - io.b),
-    AluOp.And -> (io.a & io.b),
-    AluOp.Or -> (io.a | io.b),
-    AluOp.Xor -> (io.a ^ io.b),
-    AluOp.Slt -> (io.a.asSInt < io.b.asSInt).asUInt,
-    AluOp.Sll -> (io.a << shamt),
-    AluOp.Sltu -> (io.a < io.b).asUInt,
-    AluOp.Srl -> (io.a >> shamt),
-    AluOp.Sra -> (io.a.asSInt >> shamt).asUInt,
-    AluOp.CopyA -> io.a,
-    AluOp.CopyB -> io.b,
+    AluOp.Add -> (io.rs1 + io.rs2),
+    AluOp.Sub -> (io.rs1 - io.rs2),
+    AluOp.And -> (io.rs1 & io.rs2),
+    AluOp.Or -> (io.rs1 | io.rs2),
+    AluOp.Xor -> (io.rs1 ^ io.rs2),
+    AluOp.Slt -> (io.rs1.asSInt < io.rs2.asSInt).asUInt,
+    AluOp.Sll -> (io.rs1 << shamt),
+    AluOp.Sltu -> (io.rs1 < io.rs2).asUInt,
+    AluOp.Srl -> (io.rs1 >> shamt),
+    AluOp.Sra -> (io.rs1.asSInt >> shamt).asUInt,
+    AluOp.CopyA -> io.rs1,
+    AluOp.CopyB -> io.rs2,
   )
   io.out := MuxLookup(key = io.op, default = 0.U, mapping = opList)
   Trace(cf"[Alu]: $io")
 }
 
 object Alu {
-  def apply(width: Int, a: UInt, b: UInt, op: UInt) = {
+  def apply(width: Int, rs1: UInt, rs2: UInt, op: UInt) = {
     val alu = Module(new Alu(width))
-    alu.io.a := a
-    alu.io.b := b
+    alu.io.rs1 := rs1
+    alu.io.rs2 := rs2
     alu.io.op := op
     alu.io.out
   }

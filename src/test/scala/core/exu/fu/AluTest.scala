@@ -52,8 +52,8 @@ class AluTest extends AnyFlatSpec with ChiselScalatestTester {
         a <- input
         b <- input
       } {
-        dut.io.a.poke(a.U)
-        dut.io.b.poke(b.U)
+        dut.io.rs1.poke(a.U)
+        dut.io.rs2.poke(b.U)
         dut.io.op.poke(op.U)
 //        println(s"a: $a, b: $b, op: $op, expected: ${ScalaAlu(op, a, b)}")
         dut.io.out.expect(ScalaAlu(BigInt(op), a, b).U, s"a: $a, b: $b, op: $op")

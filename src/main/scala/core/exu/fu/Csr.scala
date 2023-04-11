@@ -1,7 +1,7 @@
 package core.exu.fu
 
 import chisel3._
-import chisel3.util.{Mux1H, MuxLookup}
+import chisel3.util.{is, switch, Mux1H, MuxLookup}
 import core.CoreModule
 
 case object CsrOp {
@@ -55,8 +55,8 @@ trait CsrSpec {
   final val Minstreth:  UInt = 0xB82.U // Upper 32 bits of Minstret, RV32 only.
   // val MhpmcounterNh: UInt = 0xB83.U until 0xB9F, Upper 32 bits of MhpmcounterN, RV32 only.
 
-  def privEcall = 0x000.U
-  def privMret  = 0x302.U
+  final val priEcall: UInt = 0x000.U
+  final val priMret:  UInt = 0x302.U
 }
 // format: on
 
@@ -97,7 +97,7 @@ class Csr extends CoreModule with CsrSpec {
     ) ++
       (3 to 31).map(i => (0xb00 + i).U -> mhpmcounter(i)) ++ // MhpmcounterN
       (3 to 31).map(i => (0xb80 + i).U -> mhpmcounter(i)(63, 32)), // MhpmcounterNh
-  )(31, 0)
+  )(XLen - 1, 0)
 
   val wdata = MuxLookup(
     key = io.op,
@@ -109,26 +109,9 @@ class Csr extends CoreModule with CsrSpec {
     ),
   )
 
-  when(io.en && io.op =/= CsrOp.Jmp) {
-    when(addr === Mtvec) {
-      mtvec := wdata
-    }
-    when(addr === Mstatus) {
-      mstatus := wdata
-    }
-    when(addr === Mepc) {
-      mepc := wdata
-    }
-    when(addr === Mcause) {
-      mcause := wdata
-    }
-  }
-
-  io.out := rdata
-
-  val isMret = addr === privMret
+  val isMret = addr === priMret
   val isException = io.isInvOpcode && io.en
-  val isEcall = (addr === privEcall) && !isException
+  val isEcall = (addr === priEcall) && !isException
   val exceptionNO = Mux1H(
     List(
       io.isInvOpcode -> 2.U,
@@ -138,20 +121,32 @@ class Csr extends CoreModule with CsrSpec {
 
   io.out.br.taken := (io.en && io.op === CsrOp.Jmp) || isException
   io.out.br.target := Mux(isMret, mepc, mtvec)
-
   when(io.out.br.taken && !isMret) {
     mepc := io.pc
     mcause := exceptionNO
   }
+
+  when(io.en && io.op =/= CsrOp.Jmp) {
+    switch(addr) {
+      is(Mtvec) { mtvec := wdata }
+      is(Mstatus) { mstatus := wdata }
+      is(Mepc) { mepc := wdata }
+      is(Mcause) { mcause := wdata }
+    }
+  }
+
+  io.out.data := rdata
 }
 
 object Csr {
-  def apply(rs1: UInt, rs2: UInt, op: UInt, en: Bool) = {
+  def apply(en: Bool, rs1: UInt, rs2: UInt, op: UInt, pc: UInt) = {
     val csr = Module(new Csr)
     csr.io.rs1 := rs1
     csr.io.rs2 := rs2
     csr.io.op := op
     csr.io.en := en
+    csr.io.pc := pc
+    csr.io.isInvOpcode := true.B
 
     csr.io.out
   }

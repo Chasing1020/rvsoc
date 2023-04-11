@@ -3,7 +3,7 @@ package core.exu
 import chisel3._
 import chisel3.util.MuxLookup
 import core.{CoreBundle, CoreModule, RegFileWriteOut}
-import core.exu.fu.{Alu, BranchOut, Bru, Lsu}
+import core.exu.fu.{Alu, BranchOut, Bru, Csr, Lsu}
 import core.idu.{FuName, IduOut}
 import memory.AXI4LiteIO
 import utils._
@@ -26,9 +26,10 @@ class Exu extends CoreModule {
   val nextPc = io.in.pc + 4.U
   val op = io.in.fc.op
 
-  val aluOut = Alu(width = XLen, a = rs1, b = rs2, op = op)
+  val aluOut = Alu(width = XLen, rs1 = rs1, rs2 = rs2, op = op)
   val bruOut = Bru(rs1 = rs1, rs2 = rs2, op = op, nextPc = nextPc, offset = offset)
   val lsuOut = Lsu(io.dmem)(en = io.in.fc.name === FuName.Lsu, rs1 = rs1, rs2 = rs2, op = op, offset = offset)
+  val csrOut = Csr(en = io.in.fc.name === FuName.Lsu, rs1 = rs1, rs2 = rs2, op = op, pc = io.in.pc)
 
   io.out.rfw <> io.in.rfw
   io.out.rfw.data := MuxLookup(
