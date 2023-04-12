@@ -9,10 +9,10 @@ import utils._
 
 class TopTester(filePath: String = "tests/asm/add.hex") extends DebugTester {
   val top = Module(new Top)
-  val mem = Module(new AXI4Memory(filePath))
-  mem.io <> top.io.imem
-  top.io.dmem <> DontCare
-//  val (i, done) = Counter(true.B, 6)
+  val imem = Module(new AXI4Memory(filePath))
+  val dmem = Module(new AXI4Memory(filePath))
+  imem.io <> top.io.imem
+  dmem.io <> top.io.dmem
 
   when(top.io.exit) { stop() }
 }
@@ -22,8 +22,8 @@ class TopTest extends AnyFlatSpec with ChiselScalatestTester {
 
   it should "success" in {
 
-    // todo: lb, sb
-    test(new TopTester("tests/asm/lui.hex")).withAnnotations(Seq(WriteVcdAnnotation)).runUntilStop()
+    // todo: sb
+    test(new TopTester("tests/asm/lbu.hex")).withAnnotations(Seq(WriteVcdAnnotation)).runUntilStop()
 
     (new ChiselStage).emitVerilog(
       gen = new Top,

@@ -15,7 +15,7 @@ DUMP_FILES := $(shell find . -name '*.dmp')
 default: all
 all: $(ASM_FILES)
 	@for file in $^ ; do \
-  		make `echo $${file} | sed "s/$.s/$.hex/"`; \
+  		make `echo $${file} | sed "s/\.s/.hex/"`; \
 	done
 
 %.out: %.s
