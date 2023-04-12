@@ -7,7 +7,7 @@ import memory.AXI4Memory
 import org.scalatest.flatspec.AnyFlatSpec
 import utils._
 
-class TopTester(filePath: String = "tests/asm/add.hex") extends DebugTester {
+class TopTester(filePath: String = "tests/asm/ld.hex") extends PanicTester {
   val top = Module(new Top)
   val imem = Module(new AXI4Memory(filePath))
   val dmem = Module(new AXI4Memory(filePath))
@@ -23,7 +23,7 @@ class TopTest extends AnyFlatSpec with ChiselScalatestTester {
   it should "success" in {
 
     // todo: sb
-    test(new TopTester("tests/asm/lbu.hex")).withAnnotations(Seq(WriteVcdAnnotation)).runUntilStop()
+    test(new TopTester("tests/c/putchar.hex")).withAnnotations(Seq(WriteVcdAnnotation)).runUntilStop()
 
     (new ChiselStage).emitVerilog(
       gen = new Top,

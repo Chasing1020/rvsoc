@@ -37,12 +37,16 @@ class IduIO extends Bundle {
 class Idu extends CoreModule {
   val io = IO(new IduIO)
 
-  val instType :: fuName :: opType :: Nil = Decoder(io.in.inst)
-  val imm = ImmGen(io.in.inst, instType)
+  // Mock ECALL as Bubble, then print the value of a1
+  val isEbreak = io.in.inst === Instruction.EBREAK
+  val inst = Mux(isEbreak, Instruction.NOP, io.in.inst)
+
+  val instType :: fuName :: opType :: Nil = Decoder(inst)
+  val imm = ImmGen(inst, instType)
 
   //  fixme: add regFile in data path
-  io.rfr1.addr := io.in.inst(19, 15)
-  io.rfr2.addr := io.in.inst(24, 20)
+  io.rfr1.addr := Mux(isEbreak, 11.U, inst(19, 15))
+  io.rfr2.addr := inst(24, 20)
 
   val rs1 :: rs2 :: Nil = utils.MuxList(
     addr = instType,
@@ -56,7 +60,7 @@ class Idu extends CoreModule {
       InstType.R -> List(io.rfr1.data, io.rfr2.data), // rd = rs1 - rs2
     ),
   )
-  io.out.data.rs1 := rs1
+  io.out.data.rs1 := Mux(isEbreak, 0.U, rs1)
   io.out.data.rs2 := rs2
   io.out.data.offset := imm // for S-type and B-type
 
@@ -65,11 +69,16 @@ class Idu extends CoreModule {
 
   io.out.rfw.data := DontCare
   io.out.rfw.en := VecInit(InstType.I, InstType.U, InstType.R, InstType.J).contains(instType)
-  io.out.rfw.addr := io.in.inst(11, 7)
+  io.out.rfw.addr := inst(11, 7)
 
   io.out.pc := io.in.pc
+
+  when(isEbreak) {
+    printf("%c", rs1)
+  }
 
   Trace(cf"[Idu.in]: ${io.in}")
   Trace(cf"[Idu.out]: ${io.out}")
   Debug("[inst]: %x", io.in.inst)
+  Debug("[pc]: %x", io.in.pc)
 }

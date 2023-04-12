@@ -29,5 +29,5 @@ class Top extends Module {
   rf.io.w <> wbu.io.rfw
   ifu.io.in <> wbu.io.out
 
-  io.exit := ifu.io.out.inst === Instruction.UNIMP
+  io.exit := (ifu.io.out.inst === Instruction.UNIMP) || (ifu.io.out.inst === Instruction.RET && ifu.io.out.pc === 4.U)
 }

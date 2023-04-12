@@ -8,7 +8,7 @@ _start:
     unimp
 
 _array:
-	.byte 0x11
-	.byte 0xff
+	.byte 0x22
+	.byte 0x33
 
 	.end			# End of file
