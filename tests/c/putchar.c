@@ -14,8 +14,8 @@ static void exit() {
 }
 
 void _start() {
-  char* s = "Hello";
-  for (int i = 0; i < 5; i++)
+  char* s = "Hello, world!\n";
+  for (int i = 0; i < 14; i++)
     putchar(s[i]);
   exit();
 }
