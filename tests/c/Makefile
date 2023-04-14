@@ -1,5 +1,5 @@
 CROSS_COMPILE := riscv64-unknown-elf-
-CFLAGS        := -march=rv32i -mabi=ilp32 -fno-builtin -ffreestanding -nostdlib -static -O2 -Ttext=0x00000000
+CFLAGS        := -march=rv64g -ffreestanding -nostdlib -static -O2 -Wl,-Ttext=0
 
 GDB     := $(CROSS_COMPILE)gdb
 CC      := $(CROSS_COMPILE)gcc
@@ -26,7 +26,8 @@ all: $(ASM_FILES)
 	$(OBJCOPY) -O binary $^ $@
 
 %.hex: %.bin
-	xxd -p -c 4 $^ > ./$@
+	xxd -p -c 4 -g 2 $^ > ./$@
+	python3 tailing.py
 
 clean:
 	rm $(BIN_FILES) $(ELF_FILES) $(HEX_FILES) $(DUMP_FILES)

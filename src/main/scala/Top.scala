@@ -5,6 +5,7 @@ import core.exu._
 import core.wbu._
 import core.RegFile
 import memory._
+import utils.Panic
 
 class Top extends Module {
   val io = IO(new Bundle {
@@ -30,4 +31,5 @@ class Top extends Module {
   ifu.io.in <> wbu.io.out
 
   io.exit := (ifu.io.out.inst === Instruction.UNIMP) || (ifu.io.out.inst === Instruction.RET && ifu.io.out.pc === 4.U)
+  Panic(io.exit, "=== Program exit ===")
 }
