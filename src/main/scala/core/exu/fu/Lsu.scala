@@ -3,7 +3,7 @@ package core.exu.fu
 import chisel3._
 import chisel3.util._
 import core.CoreConfig
-import memory.{AXI4Config, AXI4LiteIO}
+import memory.AXI4LiteIO
 import utils._
 
 case object LsuOp {
@@ -18,7 +18,7 @@ case object LsuOp {
   final val Sw:      UInt = "b1000".U
 }
 
-object Lsu extends CoreConfig with AXI4Config {
+object Lsu extends CoreConfig {
   def apply(io: AXI4LiteIO)(en: Bool, rs1: UInt, rs2: UInt, op: UInt, offset: UInt) = {
     io <> DontCare // todo: remove this
 

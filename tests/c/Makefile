@@ -1,5 +1,5 @@
 CROSS_COMPILE := riscv64-unknown-elf-
-CFLAGS        := -march=rv64g -ffreestanding -nostdlib -static -O2 -Wl,-Ttext=0
+CFLAGS        := -march=rv64g -ffreestanding -nostdlib -static -Wl,-Ttext=0
 
 GDB     := $(CROSS_COMPILE)gdb
 CC      := $(CROSS_COMPILE)gcc

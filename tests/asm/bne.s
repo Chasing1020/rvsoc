@@ -11,5 +11,3 @@ _start:
 loop:
 	addi x5, x5, 1
 	bne x5, x6, loop
-
-    unimp # x5 should be 6
