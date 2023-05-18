@@ -22,6 +22,8 @@ idea:
 	$(MILL) -i mill.scalalib.GenIdea/idea
 
 test: $(TEST_FILE)
+	cd $(BASE_DIR)/tests/c && $(MAKE)
+	cd $(BASE_DIR)/tests/asm && $(MAKE)
 	$(MILL) -i _.test
 
 .PHONY: compile clean bsp idea test

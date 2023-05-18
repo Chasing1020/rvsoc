@@ -11,3 +11,8 @@ _start:
 loop:
 	addi x5, x5, 1
 	bne x5, x6, loop
+<<<<<<< HEAD
+=======
+
+    unimp # x5 should be 6
+>>>>>>> 5069dce (update Makefile)
