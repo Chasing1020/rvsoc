@@ -3,6 +3,8 @@ package com.chasing1020.core.idu
 import chisel3._
 import chisel3.util._
 import com.chasing1020.core.{CoreBundle, CoreModule}
+import com.chasing1020.utils.EmitVerilog
+import org.yaml.snakeyaml.emitter.Emitable
 
 class ImmGenIO extends CoreBundle {
   val inst = Input(UInt(VAddrBits.W))
@@ -33,5 +35,9 @@ object ImmGen {
     immGen.io.inst := inst
     immGen.io.instType := instType
     immGen.io.imm
+  }
+
+  def main(args: Array[String]): Unit = {
+    EmitVerilog(new ImmGen)
   }
 }

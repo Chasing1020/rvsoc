@@ -59,4 +59,8 @@ object Alu {
     alu.io.op := op
     alu.io.out
   }
+
+  def main(args: Array[String]): Unit = {
+    EmitVerilog(new Alu(32))
+  }
 }

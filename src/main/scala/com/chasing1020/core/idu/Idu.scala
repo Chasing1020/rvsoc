@@ -84,3 +84,9 @@ class Idu extends CoreModule {
   Debug("[inst]: %x", io.in.inst)
   Debug("[pc]: %x", io.in.pc)
 }
+
+object Idu {
+  def main(args: Array[String]): Unit = {
+    EmitVerilog(new Idu)
+  }
+}

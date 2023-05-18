@@ -66,4 +66,8 @@ object Bru {
     bru.io.offset := offset
     bru.io.out
   }
+
+  def main(args: Array[String]): Unit = {
+    EmitVerilog(new Bru)
+  }
 }

@@ -48,3 +48,9 @@ class Exu extends CoreModule {
 //  Debug(cf"[Exu.out]: ${io.out}")
 //  Debug(cf"[pc]: ${io.in.pc}")
 }
+
+object Exu {
+  def main(args: Array[String]): Unit = {
+    EmitVerilog(new Exu)
+  }
+}

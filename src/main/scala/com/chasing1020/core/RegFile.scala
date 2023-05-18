@@ -78,4 +78,8 @@ object RegFile extends CoreConfig {
       s + cf"${if (useAbiMap) AbiMap(i) else "x%02d".format(i)}: ${regs.read(i.U)}"
         + cf"${if (i % 8 != 7) ", " else "\n"}",
     )
+
+  def main(args: Array[String]): Unit = {
+    EmitVerilog(new RegFile)
+  }
 }

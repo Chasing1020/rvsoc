@@ -27,4 +27,8 @@ object EndianReverser {
     e.io.in := in
     e.io.out
   }
+
+  def main(args: Array[String]): Unit = {
+    EmitVerilog(new EndianReverser)
+  }
 }

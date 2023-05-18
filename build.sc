@@ -44,4 +44,6 @@ object rvsoc extends SbtModule with PublishModule with ScalafmtModule { m =>
       Developer("Chasing1020", "Chasing1020", "https://github.com/chasing1020"),
     ),
   )
+
+  override def mainClass = Some("com.chasing1020.Main")
 }

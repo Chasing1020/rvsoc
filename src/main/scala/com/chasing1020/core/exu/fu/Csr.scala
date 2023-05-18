@@ -3,6 +3,7 @@ package com.chasing1020.core.exu.fu
 import chisel3._
 import chisel3.util.{Mux1H, MuxLookup, is, switch}
 import com.chasing1020.core.CoreModule
+import com.chasing1020.utils.EmitVerilog
 
 case object Mode {
   final val User:       Int = 0
@@ -155,5 +156,9 @@ object Csr {
     csr.io.isInvOpcode := true.B
 
     csr.io.out
+  }
+
+  def main(args: Array[String]): Unit = {
+    EmitVerilog(new Csr)
   }
 }

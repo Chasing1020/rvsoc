@@ -5,7 +5,7 @@ import com.chasing1020.core.CoreModule
 import com.chasing1020.core.exu.fu.BranchOut
 import com.chasing1020.core.idu.InstPcOut
 import com.chasing1020.memory.AXI4LiteIO
-import com.chasing1020.utils.Trace
+import com.chasing1020.utils.{EmitVerilog, Trace}
 
 class IfuIO extends Bundle {
   val in = Flipped(new BranchOut)
@@ -30,4 +30,10 @@ class Ifu extends CoreModule {
 
   Trace(cf"[Ifu.in]: ${io.in}")
   Trace(cf"[Ifu.out]: ${io.out}")
+}
+
+object Ifu {
+  def main(args: Array[String]): Unit = {
+    EmitVerilog(new Ifu)
+  }
 }

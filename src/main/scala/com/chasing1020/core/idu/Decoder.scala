@@ -5,6 +5,7 @@ import chisel3.util._
 import Decoder._
 import Instruction._
 import com.chasing1020.core.exu.fu.{AluOp, BruOp, CsrOp, LsuOp}
+import com.chasing1020.utils.EmitVerilog
 
 case object FuName {
   final val Unknown: UInt = "b000".U
@@ -104,5 +105,9 @@ object Decoder {
     val d = Module(new Decoder)
     d.io.inst := inst
     List(d.io.instType, d.io.fuName, d.io.opType)
+  }
+
+  def main(args: Array[String]): Unit = {
+    EmitVerilog(new Decoder)
   }
 }

@@ -22,3 +22,9 @@ class Wbu extends CoreModule {
 
   Trace(cf"[Wbu.io.rfw] ${io.rfw}")
 }
+
+object Wbu {
+  def main(args: Array[String]): Unit = {
+    EmitVerilog(new Wbu)
+  }
+}

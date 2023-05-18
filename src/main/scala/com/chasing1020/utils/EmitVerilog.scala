@@ -7,7 +7,9 @@ import firrtl.options.TargetDirAnnotation
 
 object EmitVerilog {
   def apply(gen: => RawModule) = {
-    (new ChiselStage)
-      .emitVerilog(gen, annotations = Seq(TargetDirAnnotation(DefaultConfig.targetDir)))
+    println(
+      (new ChiselStage)
+        .emitVerilog(gen, annotations = Seq(TargetDirAnnotation(DefaultConfig.targetDir))),
+    )
   }
 }

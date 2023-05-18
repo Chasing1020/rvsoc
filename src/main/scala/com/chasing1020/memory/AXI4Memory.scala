@@ -67,3 +67,9 @@ class AXI4Memory(filePath: String = "") extends AXI4Module {
 //  Debug(cf"[AXI4Memory.ar]: ${io.ar}")
 //  Debug(cf"[AXI4Memory.r ]: ${io.r}")
 }
+
+object AXI4Memory {
+  def main(args: Array[String]): Unit = {
+    EmitVerilog(new AXI4Memory)
+  }
+}

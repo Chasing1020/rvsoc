@@ -3,6 +3,7 @@ package com.chasing1020.core
 import chisel3._
 import chisel3.util._
 import chisel3.experimental._
+import com.chasing1020.utils.EmitVerilog
 
 class CacheReq extends CacheBundle {
   val addr = UInt(XLen.W)
@@ -27,4 +28,10 @@ class Cache extends CacheModule {
   val idle :: compareTag :: allocate :: writeBack :: Nil = Enum(4)
 
   // todo: add cache
+}
+
+object Cache {
+  def main(args: Array[String]): Unit = {
+    EmitVerilog(new Cache)
+  }
 }
