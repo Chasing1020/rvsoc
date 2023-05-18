@@ -1,6 +1,7 @@
 package com.chasing1020.core.exu.fu
 
 import chisel3._
+import chisel3.util.experimental.decode.decoder
 import chisel3.util.{Mux1H, MuxLookup, is, switch}
 import com.chasing1020.core.CoreModule
 import com.chasing1020.utils.EmitVerilog

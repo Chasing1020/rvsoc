@@ -12,7 +12,7 @@ import mill.bsp._
 
 object rvsoc extends SbtModule with PublishModule with ScalafmtModule { m =>
   override def millSourcePath = os.pwd
-  override def scalaVersion = "2.13.8"
+  override def scalaVersion = "2.12.10"
   override def scalacOptions = Seq(
     "-language:reflectiveCalls",
     "-deprecation",

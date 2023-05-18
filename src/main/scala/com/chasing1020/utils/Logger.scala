@@ -27,7 +27,7 @@ object Clock {
 
 object Logger {
   var level = Level.Debug
-  var useLevelText = true
+  var useLevelText = false
   var useClock = true
 }
 

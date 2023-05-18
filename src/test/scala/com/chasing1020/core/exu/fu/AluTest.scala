@@ -12,7 +12,7 @@ import scala.language.implicitConversions
 import scala.util.Random
 
 object ScalaAlu {
-  def asUnsigned(a: Long): Long = (a + 0x1_0000_0000L) % 0x1_0000_0000L
+  def asUnsigned(a: Long): Long = (a + 0x100000000L) % 0x100000000L
   def asSigned(a:   Long): Long = a.toInt
 
   implicit def toLong(b: Boolean): Long = if (b) 1L else 0L

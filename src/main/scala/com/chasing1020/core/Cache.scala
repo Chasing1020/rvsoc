@@ -30,8 +30,8 @@ class Cache extends CacheModule {
   // todo: add cache
 }
 
-object Cache {
-  def main(args: Array[String]): Unit = {
-    EmitVerilog(new Cache)
-  }
-}
+//object Cache {
+//  def main(args: Array[String]): Unit = {
+//    EmitVerilog(new Cache)
+//  }
+//}
