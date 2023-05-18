@@ -38,8 +38,8 @@ object rvsoc extends SbtModule with PublishModule with ScalafmtModule { m =>
     description = "Hello",
     organization = "shuosc",
     url = "https://github.com/Chasing1020/rvsoc",
-    licenses = Seq(License.MIT),
-    versionControl = VersionControl.github("lihaoyi", "example"),
+    licenses = Seq(License.`Apache-2.0`),
+    versionControl = VersionControl.github("Chasing1020", "https://github.com/chasing1020/rvsoc"),
     developers = Seq(
       Developer("Chasing1020", "Chasing1020", "https://github.com/chasing1020"),
     ),

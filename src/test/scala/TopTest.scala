@@ -2,10 +2,11 @@ import chisel3._
 import chisel3.stage.ChiselStage
 import chisel3.util.Counter
 import chiseltest._
+import com.chasing1020.Top
+import com.chasing1020.memory.AXI4Memory
+import com.chasing1020.utils.PanicTester
 import firrtl.options.TargetDirAnnotation
-import memory.AXI4Memory
 import org.scalatest.flatspec.AnyFlatSpec
-import utils._
 
 class TopTester(filePath: String = "tests/asm/ld.hex") extends PanicTester {
   val top = Module(new Top)
@@ -18,7 +19,7 @@ class TopTester(filePath: String = "tests/asm/ld.hex") extends PanicTester {
 }
 
 class TopTest extends AnyFlatSpec with ChiselScalatestTester {
-  behavior.of("Top")
+  behavior.of("rvsoc.Top")
 
   it should "success" in {
 
